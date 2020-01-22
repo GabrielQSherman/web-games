@@ -1,17 +1,24 @@
 
-//a boolean lets the program interpret if the game should be started. (it should be)
+window.onload = () => {
+
+   
+    
+}
+
+ //INITAL VARIABLE DELERATION FOR CANVAS ELEMENT
+ let canvas = document.getElementById("canvas"),
+ context = canvas.getContext("2d"),
+ width = canvas.width,     //width of the canvas
+ height = canvas.height;  //height of canvas
+ 
+ console.log(window.innerWidth);
+
+
+//a boolean lets the program interpret if the game should be started. (it should be executed once per game)
 let gameStarted = false;
 
 
-
-
 // HANDLING USER INPUT
-
-const KeyCodeObj = {
-    space: 0x0039,
-    arrowLeft: 0xE04B,
-    arrowUp: 0xE048
-}
 
 document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
@@ -31,7 +38,22 @@ function keyDownHandler(event) {
             }
             
             break;
-    
+        case "ArrowLeft":
+            console.log('left arrow down');
+            
+            break;
+        case "ArrowRight":
+            console.log('r arrow down');
+            
+            break;
+        case "ArrowUp":
+            console.log('u arrow down');
+            
+            break;
+        case "ArrowDown":
+            console.log('d arrow down');
+            
+            break;
         default:
             break;
     }
@@ -39,6 +61,26 @@ function keyDownHandler(event) {
 }
 
 function keyUpHandler(event) {
+    switch (event.code) {
+        case "ArrowLeft":
+            console.log('left arrow up');
+            
+            break;
+        case "ArrowRight":
+            console.log('r arrow up');
+            
+            break;
+        case "ArrowUp":
+            console.log('u arrow up');
+            
+            break;
+        case "ArrowDown":
+            console.log('d arrow up');
+            
+            break;
+        default:
+            break;
+    }
     
 }
 
