@@ -1,15 +1,22 @@
 
 window.onload = () => {
 
-   
+    console.log('page has loaded');
+    
+    context.beginPath();
+    context.rect(0,0,gameSpaceWidth, gameSpaceHeight);
+    context.fillStyle = 'black';
+    context.fill()
     
 }
 
  //INITAL VARIABLE DELERATION FOR CANVAS ELEMENT
  let canvas = document.getElementById("canvas"),
  context = canvas.getContext("2d"),
- width = canvas.width,     //width of the canvas
- height = canvas.height;  //height of canvas
+ gameSpaceWidth = canvas.width = 600,     //width of the canvas
+ gameSpaceHeight = canvas.height = 600,  //height of canvas
+
+ snakeBlockSize = 30;  // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
  
  console.log(window.innerWidth);
 
@@ -90,6 +97,38 @@ function keyUpHandler(event) {
 function startGame() {
 
     console.log('game started');
+
     
+ 
+    
+    //set the background to white when the game starts
+    context.beginPath();
+    context.rect( 0, 0, gameSpaceWidth, gameSpaceHeight);
+    context.fillStyle = 'white';
+    context.fill()
+
+    create_play_grid()
+    
+}
+
+function create_play_grid() {
+
+    context.strokeStyle = "black";
+    
+    for (let i = snakeBlockSize; i < gameSpaceWidth; i+= snakeBlockSize) {
+
+        context.beginPath()
+        context.moveTo(i,0);
+        context.lineTo(i, gameSpaceHeight);
+        context.stroke()
+
+        context.beginPath()
+        context.moveTo(0, i);
+        context.lineTo(gameSpaceHeight, i);
+        context.stroke()
+     
+    }
+    
+
     
 }
