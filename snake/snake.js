@@ -18,13 +18,12 @@ window.onload = () => {
 
  ticks = 0, //messures how many frames have occured since start of game
 
- snakeBlockSize = 30,  // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
+ snakeBlockSize = 15,  // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
  snkPos = [];         // this array will contain all the positions that the snake currently takes up
-//  lastsnkPos = [];
+
  direction = 'u'     // the direction the snake moves this can change every time the user inputs an arrow key; u = up, d = down, l = left, r = right;
 
- console.log(window.innerWidth);
-
+//console.log(window.innerWidth);
 
 //a boolean lets the program interpret if the game should be started. (it should be executed once per game)
 let gameStarted = false;
@@ -103,6 +102,8 @@ function keyDownHandler(event) {
 //     }
     
 // }
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //START OF GAME PROGRAM FUNCTION, SHOULD ONLY BE EXECUTED ONCE
@@ -123,26 +124,24 @@ function game_cycle() {
 
     clear_screen() //everything that will apear on screen must be called after this funciton call
 
-    create_background()
+    create_background() //creates a colorful background, default is the html background
+
+    create_play_grid() //shows the grid that the snake moves on
 
     ticks++ //frame count increase
 
-    //gets userinput to determine the direction of the snake
     
-    
-   create_snake()
-    
-    
+    //this function handles displaying the snake to the screen, making sure the snake is created as a 'train' of blocks
+    //the direction handling function is embeded in this function as well
+    create_snake()
         
     // console.log('snake moved', ticks, snkPos);
     
-    setTimeout(requestAnimationFrame, 200, (game_cycle));
+    setTimeout(requestAnimationFrame, 100, (game_cycle));
 } 
 
 //END OF GAME CYCLE
 /////////////////////////////////////////////////////////////////////
-
-
 
 //SNAKE CREATION 
 function start_snake() {
@@ -151,6 +150,7 @@ function start_snake() {
 
     snkPos = [snakeHead];
 
+    add_snake_block()
     add_snake_block()
     add_snake_block()
 
@@ -172,13 +172,8 @@ function create_snake() {
         
     }
 
-    console.log(lastsnkPos);
-    
-
-    // console.log(snkPos);
+    //move the snake, also check if the direction has changed
     direction_handling()
-
-    // console.log(snkPos);
 
     for (let i = 1; i < snkPos.length; i++) {
         
@@ -186,8 +181,6 @@ function create_snake() {
         snkPos[i].y = lastsnkPos[i-1].y;
         
     }
-
-
 
 
 
@@ -210,8 +203,6 @@ function add_snake_block() {
     snkPos.push(newSnakeBlock)
 
     // console.log(newSnakeBlock);
-
-
     
 }
 
@@ -220,10 +211,12 @@ function create_block(x, y) {
     let x1 = (x * snakeBlockSize) - snakeBlockSize,
         x2 = (x * snakeBlockSize),
         y1 = (y * snakeBlockSize) - snakeBlockSize,
-        y2 = (y * snakeBlockSize);
+        y2 = (y * snakeBlockSize),
+
+        margin = (snakeBlockSize /10);
 
     context.beginPath();
-    context.rect(x1, y1, snakeBlockSize, snakeBlockSize);
+    context.rect(x1 + margin, y1 + margin, snakeBlockSize - margin*2, snakeBlockSize - margin*2);
     context.fillStyle = 'white';
     context.fill();
     
@@ -292,7 +285,7 @@ function create_play_grid() {
 
 function create_background() { //slowchanging rainbow color background
 
-    context.fillStyle = 'hsl(' + (ticks/2) + ', 100%, 50%)';
+    context.fillStyle = 'hsl(' + (ticks*2) + ', 100%, 30%)';
 
     context.beginPath()
     context.rect(0,0, gameSpaceWidth, gameSpaceHeight);
