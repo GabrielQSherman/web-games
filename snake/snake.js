@@ -16,8 +16,10 @@ window.onload = () => {
  gameSpaceWidth = canvas.width = 600,     //width of the canvas
  gameSpaceHeight = canvas.height = 600,  //height of canvas
 
- snakeBlockSize = 30;  // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
- 
+ snakeBlockSize = 30,  // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
+ snkPos = [];         // this array will contain all the positions that the snake currently takes up
+ direction = 'u'     // the direction the snake moves this can change every time the user inputs an arrow key; u = up, d = down, l = left, r = right;
+
  console.log(window.innerWidth);
 
 
@@ -90,16 +92,13 @@ function keyUpHandler(event) {
     }
     
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 //START OF GAME PROGRAM FUNCTION, SHOULD ONLY BE EXECUTED ONCE
 
 function startGame() {
 
     console.log('game started');
-
-    
- 
     
     //set the background to white when the game starts
     context.beginPath();
@@ -108,6 +107,8 @@ function startGame() {
     context.fill()
 
     create_play_grid()
+
+    start_snake()
     
 }
 
@@ -129,6 +130,98 @@ function create_play_grid() {
      
     }
     
+}
+
+function start_snake() {
+
+    let snakeHead = {x:10, y:10};
+
+    snkPos = [snakeHead];
+
+    add_snake_block()
+
+    //start game, enters continuous loop until gameover
+    game_cycle()
+    
+}
+
+
+function add_snake_block() {
+
+    let newSnakeBlock = {x: snkPos[snkPos.length-1].x, y: snkPos[snkPos.length-1].x}
+
+    snkPos.push(newSnakeBlock)
+
+    console.log(newSnakeBlock);
+    
+}
+
+function game_cycle() {
+
+    clear_screen()
+
+
+    switch (direction) {
+        case 'u':
+
+        snkPos[0].y++
+            
+            break;
+        case 'd':
+
+        snkPos[0].y--
+            
+            break;
+        case 'l':
+
+        snkPos[0].x++
+            
+            break;
+        case 'r':
+
+        snkPos[0].x--
+            
+            break;
+    
+        default:
+            break;
+    }
 
     
+    for (let i = 0; i < snkPos.length; i++) {
+        
+        create_block(snkPos[i].x, snkPos[i].y)
+        
+    }
+
+    for (let i = 1; i < snkPos.length; i++) {
+        
+       snkPos[i] = snkPos[i-1];
+
+    }
+        
+    console.log('snake moved');
+    
+    setTimeout(requestAnimationFrame, 200, (game_cycle));
+} 
+
+function create_block(x, y) {
+
+    let x1 = (x * snakeBlockSize) - snakeBlockSize,
+        x2 = (x * snakeBlockSize),
+        y1 = (y * snakeBlockSize) - snakeBlockSize,
+        y2 = (y * snakeBlockSize);
+
+    context.beginPath();
+    context.rect(x1, y1, snakeBlockSize, snakeBlockSize);
+    context.fillStyle = 'red';
+    context.fill();
+    
+}
+
+function clear_screen() { 
+    context.save();
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.restore();
 }
