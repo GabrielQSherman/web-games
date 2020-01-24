@@ -148,11 +148,15 @@ function start_snake() {
 
 function add_snake_block() {
 
+    
+
     let newSnakeBlock = {x: snkPos[snkPos.length-1].x, y: snkPos[snkPos.length-1].x}
 
     snkPos.push(newSnakeBlock)
 
     console.log(newSnakeBlock);
+
+
     
 }
 
