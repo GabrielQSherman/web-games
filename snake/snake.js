@@ -161,16 +161,34 @@ function start_snake() {
 
 function create_snake() {
 
+    let lastsnkPos = [];
+
     for (let i = 1; i < snkPos.length; i++) {
-        
+
+        lastsnkPos[i-1] = {};
        
-        snkPos[i] = snkPos[i-1];
+        lastsnkPos[i-1].x = snkPos[i-1].x;
+        lastsnkPos[i-1].y = snkPos[i-1].y;
         
     }
-    console.log(snkPos);
+
+    console.log(lastsnkPos);
+    
+
+    // console.log(snkPos);
     direction_handling()
 
-    console.log(snkPos);
+    // console.log(snkPos);
+
+    for (let i = 1; i < snkPos.length; i++) {
+        
+        snkPos[i].x = lastsnkPos[i-1].x;
+        snkPos[i].y = lastsnkPos[i-1].y;
+        
+    }
+
+
+
 
 
     for (let i = 0; i < snkPos.length; i++) {
@@ -184,9 +202,10 @@ function create_snake() {
 
 function add_snake_block() {
 
-    
+    let newX = snkPos[snkPos.length-1].x,
+        newY = snkPos[snkPos.length-1].y
 
-    let newSnakeBlock = {x: snkPos[snkPos.length-1].x, y: snkPos[snkPos.length-1].x}
+    let newSnakeBlock = {x: newX, y: newY};
 
     snkPos.push(newSnakeBlock)
 
@@ -219,26 +238,27 @@ function clear_screen() {
 
 function direction_handling() {
 
+    let currentSnakeHead = snkPos[0];
 
     switch (direction) {
         case 'd':
 
-        snkPos[0].y++
+            currentSnakeHead.y++
             
             break;
         case 'u':
 
-        snkPos[0].y--
+            currentSnakeHead.y--
             
             break;
         case 'r':
 
-        snkPos[0].x++
+            currentSnakeHead.x++
             
             break;
         case 'l':
 
-        snkPos[0].x--
+            currentSnakeHead.x--
             
             break;
     
