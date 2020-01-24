@@ -20,6 +20,7 @@ window.onload = () => {
 
  snakeBlockSize = 30,  // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
  snkPos = [];         // this array will contain all the positions that the snake currently takes up
+//  lastsnkPos = [];
  direction = 'u'     // the direction the snake moves this can change every time the user inputs an arrow key; u = up, d = down, l = left, r = right;
 
  console.log(window.innerWidth);
@@ -32,7 +33,7 @@ let gameStarted = false;
 // HANDLING USER INPUT
 
 document.addEventListener('keydown', keyDownHandler, false);
-document.addEventListener('keyup', keyUpHandler, false);
+// document.addEventListener('keyup', keyUpHandler, false);
 
 //FUNCTIONS THAT INTERPERT USER INPUT
 //the event param holds the key value which is accociated with a char on the keyboard
@@ -50,25 +51,25 @@ function keyDownHandler(event) {
             
             break;
         case "ArrowLeft":
-            console.log('left arrow down');
+            // console.log('left arrow down');
 
             direction = 'l'
             
             break;
         case "ArrowRight":
-            console.log('r arrow down');
+            // console.log('r arrow down');
 
             direction = 'r'
             
             break;
         case "ArrowUp":
-            console.log('u arrow down');
+            // console.log('u arrow down');
 
             direction = 'u'
             
             break;
         case "ArrowDown":
-            console.log('d arrow down');
+            // console.log('d arrow down');
 
             direction = 'd'
             
@@ -79,35 +80,34 @@ function keyDownHandler(event) {
     
 }
 
-function keyUpHandler(event) {
-    switch (event.code) {
-        case "ArrowLeft":
-            console.log('left arrow up');
+// function keyUpHandler(event) {
+//     switch (event.code) {
+//         case "ArrowLeft":
+//             // console.log('left arrow up');
             
-            break;
-        case "ArrowRight":
-            console.log('r arrow up');
+//             break;
+//         case "ArrowRight":
+//             // console.log('r arrow up');
             
-            break;
-        case "ArrowUp":
-            console.log('u arrow up');
+//             break;
+//         case "ArrowUp":
+//             // console.log('u arrow up');
             
-            break;
-        case "ArrowDown":
-            console.log('d arrow up');
+//             break;
+//         case "ArrowDown":
+//             // console.log('d arrow up');
             
-            break;
-        default:
-            break;
-    }
+//             break;
+//         default:
+//             break;
+//     }
     
-}
+// }
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //START OF GAME PROGRAM FUNCTION, SHOULD ONLY BE EXECUTED ONCE
 
 function startGame() {
-
 
     console.log('game started');
 
@@ -117,6 +117,8 @@ function startGame() {
     
 }
 
+
+// GAME LOOP
 function game_cycle() {
 
     clear_screen() //everything that will apear on screen must be called after this funciton call
@@ -125,28 +127,24 @@ function game_cycle() {
 
     ticks++ //frame count increase
 
-    //gets userinput to detirm the direction of the snake
-    direction_handling()
+    //gets userinput to determine the direction of the snake
     
-    for (let i = 0; i < snkPos.length; i++) {
+    
+   create_snake()
+    
+    
         
-        create_block(snkPos[i].x, snkPos[i].y)
-        
-    }
-
-    for (let i = 1; i < snkPos.length; i++) {
-        
-       snkPos[i] = snkPos[i-1];
-
-    }
-        
-    console.log('snake moved');
+    // console.log('snake moved', ticks, snkPos);
     
     setTimeout(requestAnimationFrame, 200, (game_cycle));
 } 
 
+//END OF GAME CYCLE
+/////////////////////////////////////////////////////////////////////
 
 
+
+//SNAKE CREATION 
 function start_snake() {
 
     let snakeHead = {x:10, y:10};
@@ -154,10 +152,33 @@ function start_snake() {
     snkPos = [snakeHead];
 
     add_snake_block()
+    add_snake_block()
 
     //start game, enters continuous loop until gameover
     game_cycle()
     
+}
+
+function create_snake() {
+
+    for (let i = 1; i < snkPos.length; i++) {
+        
+       
+        snkPos[i] = snkPos[i-1];
+        
+    }
+    console.log(snkPos);
+    direction_handling()
+
+    console.log(snkPos);
+
+
+    for (let i = 0; i < snkPos.length; i++) {
+        
+        create_block(snkPos[i].x, snkPos[i].y);
+        
+    }
+
 }
 
 
@@ -169,7 +190,7 @@ function add_snake_block() {
 
     snkPos.push(newSnakeBlock)
 
-    console.log(newSnakeBlock);
+    // console.log(newSnakeBlock);
 
 
     
@@ -197,6 +218,7 @@ function clear_screen() {
 }
 
 function direction_handling() {
+
 
     switch (direction) {
         case 'd':
