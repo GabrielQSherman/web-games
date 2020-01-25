@@ -132,10 +132,14 @@ function game_cycle() {
     //the direction handling function is embeded in this function as well
     create_snake()
 
+
+    //collision detection 
     if (powerupsOnScreen > 0) {
         detect_powerup()
     }
-    
+
+    detect_wall() //log if the wall has been hit
+    detect_self_hit() //log if one snake part hits the snake head
         
     // console.log('snake moved', ticks, snkPos);
     
@@ -255,11 +259,9 @@ function render_powerup() {
 
 //COLLISION DETECTION
 
+//CD for powerups
 function detect_powerup() {
 
-    console.log(powerup_positions[0].x, snkPos[0].x);
-    
-    
     for (let i = 0; i < powerup_positions.length; i++) {
        
         if (snkPos[0].x == powerup_positions[i].x && snkPos[0].y == powerup_positions[i].y) {
@@ -275,6 +277,31 @@ function detect_powerup() {
         }
         
     }
+}
+
+//CD for wall
+
+function detect_wall() {
+
+    if (snkPos[0].x > gameSpaceWidth/snakeBlockSize || snkPos[0].x < 1 || snkPos[0].y > gameSpaceHeight/snakeBlockSize || snkPos[0].y < 1) {
+        console.log('hit wall');
+        
+    }
+    
+}
+
+//CD for player body
+
+function detect_self_hit() {
+
+    for (let i = 1; i < snkPos.length; i++) {
+        if (snkPos[0].x == snkPos[i].x && snkPos[0].y == snkPos[i].y) {
+            console.log('self hit');
+            
+        }
+        
+    }
+    
 }
 
 //PLAYER MOVMENT CONTROL
@@ -310,7 +337,7 @@ function direction_handling() {
 
 }
 
-//addition functions for game play area
+//additional functions for game play area
 /////////////////////////////////////////
 function clear_screen() { 
     context.save();
