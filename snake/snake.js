@@ -22,7 +22,7 @@ window.onload = () => {
  snkPos = [],        // this array will contain all the positions that the snake currently takes up
 
 
- applePos = [],
+ powerup_positions = [],
 
 
  direction = 'u';     // the direction the snake moves this can change every time the user inputs an arrow key; u = up, d = down, l = left, r = right;
@@ -103,7 +103,7 @@ function startGame() {
 
 let speed = 100, //speed of snake (ms wait between frames)
 
-    applesOnScreen = 0;
+    powerupsOnScreen = 0;
 
 function game_cycle() {
 
@@ -111,26 +111,31 @@ function game_cycle() {
 
     create_background() //creates a colorful background, default is the html background
 
-    create_play_grid() //shows the grid that the snake moves on
+    // create_play_grid() //shows the grid that the snake moves on
 
     ticks++ //frame count increase
 
 
     //add powerup
-    if (ticks % 20 == 0 && applesOnScreen < 4) {
+    if (ticks % 1 == 0 && powerupsOnScreen < 1) {
 
-        add_apple()
+        add_powerup()
 
-        applesOnScreen++
+        powerupsOnScreen++
         
     }
 
-    render_apples()
+    render_powerup()
 
     
     //this function handles displaying the snake to the screen, making sure the snake is created as a 'train' of blocks
     //the direction handling function is embeded in this function as well
     create_snake()
+
+    if (powerupsOnScreen > 0) {
+        detect_powerup()
+    }
+    
         
     // console.log('snake moved', ticks, snkPos);
     
@@ -221,40 +226,58 @@ function create_snake_block(x, y) {
 //ADDITIONAL ITEMS ON SCREEN
 
 // adds a power up to the play field that can be picked up by user
-function add_apple() {
+function add_powerup() {
     //set a random position on the grid
-    let appleCoOrd = {
+    let powerup_coord = {
         x: Math.round(((gameSpaceWidth/snakeBlockSize) -7 )* Math.random()) + 3,
-        y: Math.round(((gameSpaceHeight/snakeBlockSize) -7 )* Math.random() + 3)
+        y: Math.round(((gameSpaceHeight/snakeBlockSize) -7 )* Math.random()) + 3
         
     }
 
-    applePos.push(appleCoOrd)
+    powerup_positions.push(powerup_coord)
 
 }
 
-function render_apples() {
+function render_powerup() {
     
-    for (let i = 0; i < applePos.length; i++) {
-        
+    for (let i = 0; i < powerup_positions.length; i++) {
+
+        let x = (powerup_positions[i].x * snakeBlockSize) - snakeBlockSize,
+            y = (powerup_positions[i].y  * snakeBlockSize) - snakeBlockSize;
+
         context.beginPath();
-        context.rect(applePos[i].x * snakeBlockSize, applePos[i].y * snakeBlockSize, snakeBlockSize, snakeBlockSize);
+        context.rect(x, y, snakeBlockSize, snakeBlockSize);
         context.fillStyle = 'hsl(' + (Math.random() * 360) + ', 100%, 50%)';
         context.fill();
         
     }
 }
 
+//COLLISION DETECTION
 
+function detect_powerup() {
 
-//addition functions for game play area
-function clear_screen() { 
-    context.save();
-    context.setTransform(1, 0, 0, 1, 0, 0);
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.restore();
+    console.log(powerup_positions[0].x, snkPos[0].x);
+    
+    
+    for (let i = 0; i < powerup_positions.length; i++) {
+       
+        if (snkPos[0].x == powerup_positions[i].x && snkPos[0].y == powerup_positions[i].y) {
+            console.log('powerup!');
+
+            powerup_positions.splice(i,1);
+            powerupsOnScreen--
+
+            speed-=2;
+
+            add_snake_block()
+            
+        }
+        
+    }
 }
 
+//PLAYER MOVMENT CONTROL
 function direction_handling() {
 
     let currentSnakeHead = snkPos[0];
@@ -287,6 +310,14 @@ function direction_handling() {
 
 }
 
+//addition functions for game play area
+/////////////////////////////////////////
+function clear_screen() { 
+    context.save();
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.restore();
+}
 
 //creates a grid on the playable space
 function create_play_grid() {
