@@ -19,9 +19,13 @@ window.onload = () => {
  ticks = 0, //messures how many frames have occured since start of game
 
  snakeBlockSize = 15,  // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
- snkPos = [];         // this array will contain all the positions that the snake currently takes up
+ snkPos = [],        // this array will contain all the positions that the snake currently takes up
 
- direction = 'u'     // the direction the snake moves this can change every time the user inputs an arrow key; u = up, d = down, l = left, r = right;
+
+ applePos = [],
+
+
+ direction = 'u';     // the direction the snake moves this can change every time the user inputs an arrow key; u = up, d = down, l = left, r = right;
 
 //console.log(window.innerWidth);
 
@@ -79,30 +83,6 @@ function keyDownHandler(event) {
     
 }
 
-// function keyUpHandler(event) {
-//     switch (event.code) {
-//         case "ArrowLeft":
-//             // console.log('left arrow up');
-            
-//             break;
-//         case "ArrowRight":
-//             // console.log('r arrow up');
-            
-//             break;
-//         case "ArrowUp":
-//             // console.log('u arrow up');
-            
-//             break;
-//         case "ArrowDown":
-//             // console.log('d arrow up');
-            
-//             break;
-//         default:
-//             break;
-//     }
-    
-// }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -120,6 +100,11 @@ function startGame() {
 
 
 // GAME LOOP
+
+let speed = 100, //speed of snake (ms wait between frames)
+
+    applesOnScreen = 0;
+
 function game_cycle() {
 
     clear_screen() //everything that will apear on screen must be called after this funciton call
@@ -130,6 +115,18 @@ function game_cycle() {
 
     ticks++ //frame count increase
 
+
+    //add powerup
+    if (ticks % 20 == 0 && applesOnScreen < 4) {
+
+        add_apple()
+
+        applesOnScreen++
+        
+    }
+
+    render_apples()
+
     
     //this function handles displaying the snake to the screen, making sure the snake is created as a 'train' of blocks
     //the direction handling function is embeded in this function as well
@@ -137,7 +134,7 @@ function game_cycle() {
         
     // console.log('snake moved', ticks, snkPos);
     
-    setTimeout(requestAnimationFrame, 100, (game_cycle));
+    setTimeout(requestAnimationFrame, speed, (game_cycle));
 } 
 
 //END OF GAME CYCLE
@@ -146,13 +143,12 @@ function game_cycle() {
 //SNAKE CREATION 
 function start_snake() {
 
-    let snakeHead = {x:10, y:10};
+    let snakeHead = {x:(gameSpaceWidth/snakeBlockSize)/2, y:(gameSpaceHeight/snakeBlockSize)/2};
 
     snkPos = [snakeHead];
 
     add_snake_block()
-    add_snake_block()
-    add_snake_block()
+
 
     //start game, enters continuous loop until gameover
     game_cycle()
@@ -186,7 +182,7 @@ function create_snake() {
 
     for (let i = 0; i < snkPos.length; i++) {
         
-        create_block(snkPos[i].x, snkPos[i].y);
+        create_snake_block(snkPos[i].x, snkPos[i].y);
         
     }
 
@@ -206,7 +202,7 @@ function add_snake_block() {
     
 }
 
-function create_block(x, y) {
+function create_snake_block(x, y) {
 
     let x1 = (x * snakeBlockSize) - snakeBlockSize,
         x2 = (x * snakeBlockSize),
@@ -222,6 +218,36 @@ function create_block(x, y) {
     
 }
 
+//ADDITIONAL ITEMS ON SCREEN
+
+// adds a power up to the play field that can be picked up by user
+function add_apple() {
+    //set a random position on the grid
+    let appleCoOrd = {
+        x: Math.round(((gameSpaceWidth/snakeBlockSize) -7 )* Math.random()) + 3,
+        y: Math.round(((gameSpaceHeight/snakeBlockSize) -7 )* Math.random() + 3)
+        
+    }
+
+    applePos.push(appleCoOrd)
+
+}
+
+function render_apples() {
+    
+    for (let i = 0; i < applePos.length; i++) {
+        
+        context.beginPath();
+        context.rect(applePos[i].x * snakeBlockSize, applePos[i].y * snakeBlockSize, snakeBlockSize, snakeBlockSize);
+        context.fillStyle = 'hsl(' + (Math.random() * 360) + ', 100%, 50%)';
+        context.fill();
+        
+    }
+}
+
+
+
+//addition functions for game play area
 function clear_screen() { 
     context.save();
     context.setTransform(1, 0, 0, 1, 0, 0);
