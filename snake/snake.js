@@ -27,7 +27,9 @@ window.onload = () => {
 
 
     //game score
-    let score = 0;
+    let score = 0, scoreInc = 1;
+    //boolean that allows the program to only have to show the score when the score is updated, not every frame
+    let shownScore = false;
 
     //CREATE BLACK BACKGROUND
 
@@ -53,9 +55,12 @@ window.onload = () => {
             case "Space":
 
                 if (!gameStarted) {
-                    
-                    startGame()
+
                     gameStarted = true
+
+
+                    startGame()
+                    
                 }
                 
                 break;
@@ -99,15 +104,18 @@ window.onload = () => {
         //reset neccesary variables
         speed = 100;
         score = 0;
+        scoreInc = 1;
         direction = '';
         ticks = 0;
         powerupsOnScreen = 0;
         powerup_positions = [];
+        shownScore = false
 
         gameStopped = false;
 
 
         console.log('game started');
+
 
         //this funciton will clear the snakebody position array
         start_snake()
@@ -122,6 +130,19 @@ window.onload = () => {
         powerupsOnScreen = 0;
 
     function game_cycle() {
+
+        if (direction == '') {
+            document.getElementById('message').innerHTML = 'Press an arrow key to start!';
+            
+        } else {
+            
+            if (!shownScore) {
+                console.log('test');
+                
+                document.getElementById('message').innerHTML = 'Score: ' + score;
+                shownScore = true
+            }
+        }
 
         console.log(speed);
         
@@ -179,6 +200,7 @@ window.onload = () => {
 
         snkPos = [snakeHead];
 
+        add_snake_block()
         add_snake_block()
 
 
@@ -293,7 +315,15 @@ window.onload = () => {
                 powerup_positions.splice(i,1);
                 powerupsOnScreen--
 
-                speed-=2;
+                if (speed >= 44) {
+                    speed-=4;
+                }
+
+                score += scoreInc;
+
+                scoreInc++;
+
+                document.getElementById('message').innerHTML = 'Score: ' + score;
 
                 add_snake_block()
                 
@@ -366,7 +396,7 @@ window.onload = () => {
                 currentSnakeHead.x--
                 
                 break;
-        
+
             default:
                 break;
         }
