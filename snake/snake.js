@@ -185,7 +185,8 @@ window.onload = () => {
         if (!gameStopped) {
             setTimeout(requestAnimationFrame, speed, (game_cycle));
         } else {
-            startGame()
+            setTimeout(startGame, 1000);
+    
         }
         
     } 
@@ -279,7 +280,8 @@ window.onload = () => {
         //set a random position on the grid
         let powerup_coord = {
             x: Math.round(((gameSpaceWidth/snakeBlockSize) -7 )* Math.random()) + 3,
-            y: Math.round(((gameSpaceHeight/snakeBlockSize) -7 )* Math.random()) + 3
+            y: Math.round(((gameSpaceHeight/snakeBlockSize) -7 )* Math.random()) + 3,
+            color: Math.round(Math.random() * 360)
             
         }
 
@@ -296,7 +298,7 @@ window.onload = () => {
 
             context.beginPath();
             context.rect(x, y, snakeBlockSize, snakeBlockSize);
-            context.fillStyle = 'hsl(' + (Math.random() * 360) + ', 100%, 50%)';
+            context.fillStyle = 'hsl(' + powerup_positions[i].color + ', 100%, 70%)';
             context.fill();
             
         }
@@ -364,7 +366,7 @@ window.onload = () => {
     //GAME OVER FUNCITON
     function game_over() {
 
-        document.getElementById('message').innerHTML = 'Game Over';
+        document.getElementById('message').innerHTML = '<h1 style="color:red">Game Over!</h1>';
 
         gameStopped = true;
 
@@ -435,7 +437,7 @@ window.onload = () => {
 
     function create_background() { //slowchanging rainbow color background
 
-        context.fillStyle = 'hsl(' + (ticks*2) + ', 100%, 30%)';
+        context.fillStyle = 'hsl(' + (150 + ticks*2 ) + ', 100%, 30%)';
 
         context.beginPath()
         context.rect(0,0, gameSpaceWidth, gameSpaceHeight);
