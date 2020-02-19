@@ -1,6 +1,4 @@
 
-window.onload = () => {
-
 
     //INITAL VARIABLE DELERATION FOR CANVAS ELEMENT
     let canvas = document.getElementById("canvas"),
@@ -10,7 +8,7 @@ window.onload = () => {
 
     ticks = 0, //messures how many frames have occured since start of game
 
-    snakeBlockSize = 15,  // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
+    snakeBlockSize = 20,  // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
     snkPos = [],        // this array will contain all the positions that the snake currently takes up
 
 
@@ -118,6 +116,8 @@ window.onload = () => {
 
 
         //this funciton will clear the snakebody position array
+        add_powerup()
+        add_powerup()
         start_snake()
         
     }
@@ -174,9 +174,7 @@ window.onload = () => {
 
 
         //collision detection 
-        if (powerupsOnScreen > 0) {
-            detect_powerup()
-        }
+        detect_powerup()
 
         detect_wall() //log if the wall has been hit
         detect_self_hit() //log if one snake part hits the snake head
@@ -207,6 +205,9 @@ window.onload = () => {
 
         //start game, enters continuous loop until gameover
         game_cycle()
+
+        create_star_field() //adds stars to Stars array
+
         
     }
 
@@ -293,13 +294,21 @@ window.onload = () => {
         
         for (let i = 0; i < powerup_positions.length; i++) {
 
-            let x = (powerup_positions[i].x * snakeBlockSize) - snakeBlockSize,
-                y = (powerup_positions[i].y  * snakeBlockSize) - snakeBlockSize;
+            // let x = (powerup_positions[i].x * snakeBlockSize) - snakeBlockSize,
+            //     y = (powerup_positions[i].y  * snakeBlockSize) - snakeBlockSize;
+            let x = (powerup_positions[i].x * snakeBlockSize) - snakeBlockSize/2,
+            y = (powerup_positions[i].y  * snakeBlockSize) - snakeBlockSize/2;
+            
+            context.save()
 
             context.beginPath();
-            context.rect(x, y, snakeBlockSize, snakeBlockSize);
+
+            context.arc(x, y, snakeBlockSize/2, 0, Math.PI*2)
+            
             context.fillStyle = 'hsl(' + powerup_positions[i].color + ', 100%, 70%)';
             context.fill();
+
+            context.restore()
             
         }
     }
@@ -312,7 +321,7 @@ window.onload = () => {
         for (let i = 0; i < powerup_positions.length; i++) {
         
             if (snkPos[0].x == powerup_positions[i].x && snkPos[0].y == powerup_positions[i].y) {
-                console.log('powerup!');
+                // console.log('powerup!');
 
                 powerup_positions.splice(i,1);
                 powerupsOnScreen--
@@ -417,7 +426,7 @@ window.onload = () => {
     //creates a grid on the playable space
     function create_play_grid() {
 
-        context.strokeStyle = "black";
+        context.strokeStyle = "white";
         
         for (let i = snakeBlockSize; i < gameSpaceWidth; i+= snakeBlockSize) {
 
@@ -437,12 +446,122 @@ window.onload = () => {
 
     function create_background() { //slowchanging rainbow color background
 
-        context.fillStyle = 'hsl(' + (150 + ticks*2 ) + ', 100%, 30%)';
+        context.fillStyle = 'black';
 
-        context.beginPath()
         context.rect(0,0, gameSpaceWidth, gameSpaceHeight);
+
         context.fill()
+
+        context.save()
+
+        context.translate(gameSpaceWidth/2, gameSpaceHeight/2)
+
+        renderStars() //displays each star from its position in the Stars array 
+
+        context.restore()
+
+        moveStars(40) //moves the position of each start slightly
         
     }
 
-}
+    // FUNCTIONS FOR CREATING BACKGROUND
+
+    let Stars = []; //this array will store the values of the current stars on the screen
+
+    
+    function make_circle(x, y, hue, size, lightness){
+
+        context.beginPath()
+        context.arc(x, y,  size, 0, 2 * Math.PI)
+
+        let saturation = 30;
+
+        context.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        context.fill()
+
+        
+    }
+
+
+    function create_star_field() {
+
+        const width = gameSpaceWidth, height = gameSpaceHeight;
+
+        Stars = [];
+
+        for (let i = 0; i < 400; i++) {
+
+            let hue = Math.random() * 360,
+                    x = (Math.random() * width) - width /2,
+                    y = (Math.random() * height) - height /2,
+                    size = 1,
+                    lightness = -10;
+             
+            Stars.push({
+                x: x, y: y, hue: hue, radius: size, lightness: lightness
+            });
+            
+        }
+        
+    }
+
+
+    function renderStars() {
+
+        for (let i = 0; i < Stars.length; i++) {
+            
+            make_circle(Stars[i].x, Stars[i].y, Stars[i].hue, Stars[i].radius, Stars[i].lightness);
+            
+        }
+
+    }
+
+    function moveStars(speed) {
+
+        for (let i = 0; i < Stars.length; i++) {
+
+            const width = gameSpaceWidth;
+
+            let NewX = Stars[i].x * (1 + speed/1000),
+                NewY = Stars[i].y * (1 + speed/1000);
+
+
+                if (NewX > width/1.5 || NewX < -width/1.5 || NewY > width/1.5 || NewY < -width/1.5) {
+
+                    Stars.splice(i, 1); //if it goes off screen, delete it from the stars to be rendered
+
+                    addStar() // then add a new one to replace it
+
+                    i--
+
+                } else {
+
+                    Stars[i].x = NewX;
+                    Stars[i].y = NewY;
+
+                    Stars[i].lightness += .88
+                    
+                    Stars[i].radius += 7/1000
+
+                }
+           
+        }
+        
+    }
+
+
+    function addStar() { //when one star dies another is born
+
+        const width = gameSpaceWidth, height = gameSpaceHeight;
+
+        let hue = Math.random() * 360,
+        x = (Math.random() * width/8) - width /16,
+        y = (Math.random() * height/8) - height /16,
+        size = 1,
+        lightness = 0;
+ 
+        Stars.push({
+            x: x, y: y, hue: hue, radius: size, lightness: lightness
+        });
+        
+    }
