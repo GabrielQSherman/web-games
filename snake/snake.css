@@ -1,0 +1,68 @@
+body {
+    background-color: rgb(241, 255, 203);
+    /* justify-content: center; */
+}
+
+.game_display {
+    display: flex;
+}
+
+canvas {
+
+        flex: 1;
+
+        display: block;
+        border: 39px ridge rgb(203, 255, 242);
+
+        border-radius: 25px;
+}
+
+.leftSideBar {
+
+    flex: 1;
+
+    text-align: center;
+    background-color: black;
+
+    border-radius: 7px;
+}
+
+.rightSideBar {
+
+    flex: 1;
+
+    text-align: center;
+    background-color: black;
+
+    border-radius: 7px;
+
+}
+
+.rightSideBar>h3 {
+
+    background-color: aliceblue;
+
+    border-radius: 10px;
+
+    margin-left: 37%;
+    margin-right: 37%;
+}
+
+#title {
+    color: red;
+    background-color: yellow;
+    border: 10px groove rgb(67, 217, 255);
+}
+
+#message {
+
+    text-align: center;
+
+    background-color: aliceblue;
+
+    border-radius: 10px;
+
+    margin-left: 7%;
+    margin-right: 7%;
+
+}

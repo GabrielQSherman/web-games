@@ -6,43 +6,45 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>SNAKE</title>
 
-    <style type="text/css">
-
-    body {
-        background-color: rgb(203, 255, 242);
-        /* justify-content: center; */
-    }
-
-    .game_display {
-        display: flex;
-    }
-
-    canvas {
-            margin: 0 auto;
-            /* margin-top: 5%; */
-            display: block;
-            border: 39px solid #98ff98;
-    }
-
-    </style>
-
+    <link rel="stylesheet" href="snake.css">
     
 
     
 </head>
 <body>
     <div class="game_display">
-        <p style="flex: 1">Pure Javascript Snake</p>
 
-        <h1 id="message" style="flex: 1">Press 'Space' To Start</h1>
+        <div class="leftSideBar">
 
-        <p style="flex: 1">by Gabriel Sherman</p>
+            <h1 id="title">SPACE SNAKE</h4>
+            
+            
+        </div>
+
+        <canvas id="canvas"></canvas>
+
+        <div class="rightSideBar">
+
+
+            <h3>Pure Javascript Snake</h3>
+            <br>
+            <h3>Try to collect cosmic food and survive as the space snake as long as you can</h3>
+            <br><br><br>
+            <h3 id="by">by Gabriel Sherman</h3>
+
+            
+
+
+        </div>
+
 
     </div>
-    
-    <canvas id="canvas"></canvas>
+    <h1 id="message">Press 'Space' To Start</h1>
+
     
     
     <script type="text/javascript" src="snake.js"></script>
+
+
 </body>
 </html>

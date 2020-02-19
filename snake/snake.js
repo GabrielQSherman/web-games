@@ -460,7 +460,7 @@
 
         context.restore()
 
-        moveStars(40) //moves the position of each start slightly
+        moveStars(57) //moves the position of each start slightly
         
     }
 
@@ -474,7 +474,7 @@
         context.beginPath()
         context.arc(x, y,  size, 0, 2 * Math.PI)
 
-        let saturation = 30;
+        let saturation = 70;
 
         context.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
         context.fill()
@@ -489,13 +489,13 @@
 
         Stars = [];
 
-        for (let i = 0; i < 400; i++) {
+        for (let i = 0; i < 200; i++) {
 
             let hue = Math.random() * 360,
                     x = (Math.random() * width) - width /2,
                     y = (Math.random() * height) - height /2,
                     size = 1,
-                    lightness = -10;
+                    lightness = 60;
              
             Stars.push({
                 x: x, y: y, hue: hue, radius: size, lightness: lightness
@@ -526,7 +526,7 @@
                 NewY = Stars[i].y * (1 + speed/1000);
 
 
-                if (NewX > width/1.5 || NewX < -width/1.5 || NewY > width/1.5 || NewY < -width/1.5) {
+                if (NewX > width || NewX < -width || NewY > width || NewY < -width) {
 
                     Stars.splice(i, 1); //if it goes off screen, delete it from the stars to be rendered
 
@@ -539,9 +539,9 @@
                     Stars[i].x = NewX;
                     Stars[i].y = NewY;
 
-                    Stars[i].lightness += .88
+                    Stars[i].lightness += 3;
                     
-                    Stars[i].radius += 7/1000
+                    Stars[i].radius += .027;
 
                 }
            
@@ -554,9 +554,9 @@
 
         const width = gameSpaceWidth, height = gameSpaceHeight;
 
-        let hue = Math.random() * 360,
-        x = (Math.random() * width/8) - width /16,
-        y = (Math.random() * height/8) - height /16,
+        let hue = (Math.random() * 360),
+        x = (Math.random() * width/2) - width /4,
+        y = (Math.random() * height/2) - height /4,
         size = 1,
         lightness = 0;
  
