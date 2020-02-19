@@ -3,12 +3,12 @@
     //INITAL VARIABLE DELERATION FOR CANVAS ELEMENT
     let canvas = document.getElementById("canvas"),
     context = canvas.getContext("2d"),
-    gameSpaceWidth = canvas.width = 600,     //width of the canvas
-    gameSpaceHeight = canvas.height = 600,  //height of canvas
+    gameSpaceWidth = canvas.width = 800,     //width of the canvas
+    gameSpaceHeight = canvas.height = 800,  //height of canvas
 
     ticks = 0, //messures how many frames have occured since start of game
 
-    snakeBlockSize = 20,  // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
+    snakeBlockSize = 25,  // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
     snkPos = [],        // this array will contain all the positions that the snake currently takes up
 
 
@@ -100,7 +100,7 @@
     function startGame() {
 
         //reset neccesary variables
-        speed = 100;
+        speed = 77;
         score = 0;
         scoreInc = 1;
         direction = '';
@@ -125,7 +125,7 @@
 
     // GAME LOOP
 
-    let speed = 100, //speed of snake (ms wait between frames)
+    let speed = 77, //speed of snake (ms wait between frames)
 
         powerupsOnScreen = 0;
 
@@ -202,7 +202,6 @@
         add_snake_block()
         add_snake_block()
 
-
         //start game, enters continuous loop until gameover
         game_cycle()
 
@@ -238,7 +237,7 @@
 
         for (let i = 0; i < snkPos.length; i++) {
             
-            create_snake_block(snkPos[i].x, snkPos[i].y);
+            create_snake_block(snkPos[i].x, snkPos[i].y, i);
             
         }
 
@@ -258,7 +257,7 @@
         
     }
 
-    function create_snake_block(x, y) {
+    function create_snake_block(x, y, index) {
 
         let x1 = (x * snakeBlockSize) - snakeBlockSize,
             x2 = (x * snakeBlockSize),
@@ -267,9 +266,12 @@
 
             margin = (snakeBlockSize /10);
 
+            color = ticks + (index*20);
+
+
         context.beginPath();
         context.rect(x1 + margin, y1 + margin, snakeBlockSize - margin*2, snakeBlockSize - margin*2);
-        context.fillStyle = 'white';
+        context.fillStyle = `hsl( ${color}, 100%, 70%)`;
         context.fill();
         
     }

@@ -40,7 +40,7 @@ canvas {
 
 .rightSideBar>h3 {
 
-    background-color: aliceblue;
+    background-color: rgb(206, 241, 255);
 
     border-radius: 10px;
 
@@ -58,11 +58,11 @@ canvas {
 
     text-align: center;
 
-    background-color: aliceblue;
+    background-color: rgb(187, 236, 255);
 
     border-radius: 10px;
 
-    margin-left: 7%;
-    margin-right: 7%;
+    margin-left: 27%;
+    margin-right: 27%;
 
 }
