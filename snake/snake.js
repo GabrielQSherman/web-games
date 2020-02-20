@@ -1,5 +1,5 @@
 
-
+ 
     //INITAL VARIABLE DELERATION FOR CANVAS ELEMENT
     let canvas = document.getElementById("canvas"),
     context = canvas.getContext("2d"),
@@ -9,7 +9,9 @@
     ticks = 0, //messures how many frames have occured since start of game
 
     snakeBlockSize = 25,  // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
-    snkPos = [],        // this array will contain all the positions that the snake currently takes up
+    snkPos = [],         // this array will contain all the positions that the snake currently takes up
+
+    localHighScore = 0, //this var will be set eachtime the player beats their current highscore
 
 
     powerup_positions = [],
@@ -378,6 +380,12 @@
     function game_over() {
 
         document.getElementById('message').innerHTML = '<h1 style="color:red">Game Over!</h1>';
+
+        if (localHighScore < score) {
+            localHighScore = score
+
+            document.getElementById('localhs').innerText = localHighScore;
+        }
 
         gameStopped = true;
 

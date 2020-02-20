@@ -1,4 +1,4 @@
-body {
+body { 
     background-color: rgb(241, 255, 203);
     /* justify-content: center; */
 }
@@ -22,9 +22,23 @@ canvas {
     flex: 1;
 
     text-align: center;
-    background-color: black;
+    background-color: rgb(255, 255, 255);
 
     border-radius: 7px;
+}
+
+
+#title {
+    color: red;
+    background-color: yellow;
+    border: 10px groove rgb(67, 217, 255);
+}
+
+#LB {
+
+    background-color: rgb(67, 217, 255);
+    border: 10px groove rgb(238, 255, 0);
+
 }
 
 .rightSideBar {
@@ -48,11 +62,8 @@ canvas {
     margin-right: 37%;
 }
 
-#title {
-    color: red;
-    background-color: yellow;
-    border: 10px groove rgb(67, 217, 255);
-}
+
+
 
 #message {
 
