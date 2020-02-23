@@ -13,4 +13,11 @@ I also updated the Html/CSS to look a lot better
 
 after working on creating apis of my own and connecting them frontend pages I am ready to start adding a highscore system for my game that will store highscores on my Mongo-Database
 
+2/23/20
+
+setup schema model and set up index with a route handler that is being imported from the routes folder.
+all together these will be the key components to sending and recieving highscore information to an from my Mongo Database
+
+
+
 
