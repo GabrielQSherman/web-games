@@ -6,7 +6,9 @@ const ScoreSchema = mongoose.Schema({
 
     name: {
         type: String,
-        required: true
+        required: true,
+        minLength: 3,
+        maxLength: 3
     },
 
     score: {
