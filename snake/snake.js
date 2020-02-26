@@ -31,9 +31,28 @@
     //boolean that allows the program to only have to show the score when the score is updated, not every frame
     let shownScore = false;
 
-    //CREATE BLACK BACKGROUND
+    //LOAD HIGHSCORES
+    const xhr = new XMLHttpRequest(), method = 'GET', endpoint = 'http://localhost:7777/all';
 
-    console.log('page has loaded');
+    xhr.open(method, endpoint, true )
+
+    xhr.setRequestHeader('Accept', '*')
+
+    xhr.onload = () => {
+
+        let jsonData = JSON.parse(xhr.responseText());
+
+        console.log(jsonData);
+
+        console.log(jsonData.all_scores);
+        
+
+    }
+
+    xhr.send()
+
+
+    //CREATE BLACK BACKGROUND
         
     context.beginPath();
     context.rect(0,0,gameSpaceWidth, gameSpaceHeight);
@@ -575,3 +594,6 @@
         });
         
     }
+
+
+    console.log('page has loaded');
