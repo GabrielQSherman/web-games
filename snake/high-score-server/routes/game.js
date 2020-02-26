@@ -7,15 +7,18 @@ const express = require('express'),
 
 
       router.get('/addnew', async (req, res) => {
+          
           const newpost = new highscoreSchema( {
-              name: 'bil',
-              score: '100'
+
+              name: req.body.name,
+              score: req.body.score
+              
           })
 
 
           await newpost.save()
 
-          res.json({post: newpost})
+          res.json({post: newpost })
       })
 
 
