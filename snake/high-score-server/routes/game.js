@@ -30,7 +30,9 @@ const express = require('express'),
 
     //first test route for this server
       router.get('/', (req, res) => {
-          res.send('testing')
+
+        let gameFilesRoute = __dirname.replace(/\\high-score-server\\routes/, '/public/snake.html');
+          res.sendFile(gameFilesRoute)
       })
 
 
