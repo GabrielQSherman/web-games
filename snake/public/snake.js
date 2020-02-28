@@ -496,7 +496,14 @@
 
     function set_up_leaderboard() {
 
+
         //create table in DOM
+
+        let leaderTable = document.createElement('table');
+
+        
+
+        //use xhr to get all scores
 
         //sort by top score
         
