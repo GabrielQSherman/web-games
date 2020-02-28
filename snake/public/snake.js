@@ -40,12 +40,11 @@
 
     xhr.onload = () => {
 
-        let jsonData = JSON.parse(xhr.responseText());
+        let jsonData = JSON.parse(xhr.responseText);
 
-        console.log(jsonData);
-
-        console.log(jsonData.all_scores);
+        // console.log(jsonData.all_scores);
         
+        set_up_leaderboard()
 
     }
 
@@ -491,6 +490,22 @@
 
         moveStars(57) //moves the position of each start slightly
         
+    }
+
+    //CREATING LEADERBOARD
+
+    function set_up_leaderboard() {
+
+        //create table in DOM
+
+        //sort by top score
+        
+        //show up to ten scores
+
+        //use for loop 
+        //and make a table with key/value pairs for name and score
+
+        //append info to dom
     }
 
     // FUNCTIONS FOR CREATING BACKGROUND
