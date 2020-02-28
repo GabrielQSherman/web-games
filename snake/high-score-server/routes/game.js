@@ -7,7 +7,6 @@ const express = require('express'),
 
 
       router.post('/addnew', async (req, res) => {
-        
 
           
           const newpost = new highscoreSchema( {
@@ -27,6 +26,7 @@ const express = require('express'),
             res.json({post: newpost })
             
           })
+
           .catch( err => {
 
             console.log(err);
@@ -34,6 +34,7 @@ const express = require('express'),
             res.json({err: err.message})
             
           })
+
           .finally()
           
       })

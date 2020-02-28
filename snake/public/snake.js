@@ -499,21 +499,31 @@
     function set_up_leaderboard(responseArr) {
 
         //use xhr to get all scores -> pass the array from the parsed response text, and passes as parameter of this function
-        let sortedScores = responseArr.sort((a, b) => a - b);
+        let sortedScores = responseArr.sort((a, b) => a.score - b.score);
 
         //responseArr will have all the current highscores in database (name & score) as a json obj
 
         console.log(sortedScores);
+
+        let ol = document.createElement('ol');
+
+        for (let i = 0; i < sortedScores.length; i++) {
+            
+            let li = document.createElement('li');
+
+            console.log(sortedScores[i].name + sortedScores[i].score);
+
+            li.innerText = sortedScores[i].name + sortedScores[i].score;
+
+            ol.appendChild(li);
+            
+        }
         
+        document.getElementById("leftSideBar").appendChild(ol);
 
         //create table in DOM
         let leaderTable = document.createElement('table');
 
-
-
-        
-
-        
 
 
 
@@ -531,7 +541,7 @@
 
     let Stars = []; //this array will store the values of the current stars on the screen
 
-    
+     
     function make_circle(x, y, hue, size, lightness){
 
         context.beginPath()
