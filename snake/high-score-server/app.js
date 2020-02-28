@@ -5,11 +5,18 @@ require('dotenv/config');
 const express = require('express'),
       mongoose = require('mongoose'),
 
-      app = express(),
+      app = express(); //create an instance of express. it is an object with application level methods (essentially an instance of an application)
 
-      gameRoute = require('./routes/game');
+      //for every route, the public folder will be used to serve static files
+      app.use(express.static('../public'));
+      
+      
+//game will be ran from the server. when on the homepage. 
+//the users request will be handled by the router located in this var
+      
+let  gameRoute = require('./routes/game');
 
-      app.use('/', gameRoute)
+     app.use('/', gameRoute);
 
 
       //MongoDB Connection
