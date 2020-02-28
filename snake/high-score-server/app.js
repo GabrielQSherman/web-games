@@ -10,6 +10,8 @@ const express = require('express'),
       //for every route, the public folder will be used to serve static files
       app.use(express.static('../public'));
       
+      //i also want every route to be able to send data using json, so i call express.json
+      app.use(express.json());
       
 //game will be ran from the server. when on the homepage. 
 //the users request will be handled by the router located in this var
@@ -17,7 +19,6 @@ const express = require('express'),
 let  gameRoute = require('./routes/game');
 
      app.use('/', gameRoute);
-
 
       //MongoDB Connection
 
@@ -55,7 +56,6 @@ let  gameRoute = require('./routes/game');
 
         });
       
-
       //Local Host Port Connection
 
       let port = process.env.PORT
