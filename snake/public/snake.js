@@ -26,6 +26,8 @@
         gameStopped;
 
 
+
+
     //game score
     let score = 0, scoreInc = 1;
     //boolean that allows the program to only have to show the score when the score is updated, not every frame
@@ -44,7 +46,7 @@
 
         // console.log(jsonData.all_scores);
         
-        set_up_leaderboard()
+        set_up_leaderboard(jsonData.all_scores)
 
     }
 
@@ -494,16 +496,26 @@
 
     //CREATING LEADERBOARD
 
-    function set_up_leaderboard() {
+    function set_up_leaderboard(responseArr) {
 
+        //use xhr to get all scores -> pass the array from the parsed response text, and passes as parameter of this function
+        let sortedScores = responseArr.sort((a, b) => a - b);
+
+        //responseArr will have all the current highscores in database (name & score) as a json obj
+
+        console.log(sortedScores);
+        
 
         //create table in DOM
-
         let leaderTable = document.createElement('table');
+
+
 
         
 
-        //use xhr to get all scores
+        
+
+
 
         //sort by top score
         

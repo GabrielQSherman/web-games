@@ -18,7 +18,19 @@ const express = require('express'),
 
           await newpost.save()
 
-          res.json({post: newpost })
+          .then( response => {
+
+            console.log(response);
+
+            res.json({post: newpost })
+            
+          })
+          .catch( err => {
+            
+            console.log(err);
+            
+          })
+          
       })
 
 
