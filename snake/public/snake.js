@@ -499,7 +499,7 @@
     function set_up_leaderboard(responseArr) {
 
         //use xhr to get all scores -> pass the array from the parsed response text, and passes as parameter of this function
-        let sortedScores = responseArr.sort((a, b) => a.score - b.score);
+        let sortedScores = responseArr.sort((a, b) => {return a.score - b.score});
 
         //responseArr will have all the current highscores in database (name & score) as a json obj
 

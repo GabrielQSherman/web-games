@@ -4,11 +4,15 @@ require('dotenv/config');
 
 const express = require('express'),
       mongoose = require('mongoose'),
+      morgan = require('morgan'),
 
       app = express(); //create an instance of express. it is an object with application level methods (essentially an instance of an application)
 
       //for every route, the public folder will be used to serve static files
       app.use(express.static('../public'));
+
+      //shows each route request to server in VScode commandline
+      app.use(morgan('dev'));
       
       //i also want every route to be able to send data using json, so i call express.json
       app.use(express.json());

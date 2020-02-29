@@ -18,6 +18,12 @@ after working on creating apis of my own and connecting them frontend pages I am
 setup schema model and set up index with a route handler that is being imported from the routes folder.
 all together these will be the key components to sending and recieving highscore information to an from my Mongo Database
 
+2/29/20
+
+after a few days of work i have completed connecting the front end to the backend with one route. When the user's page loads, a request for all the current highscores is made and all the scores are displayed to the user. 
+
+Im installing morgan so i can see all my routes in my console for debug refrence.
+
 
 
 
