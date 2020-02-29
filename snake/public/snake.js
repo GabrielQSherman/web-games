@@ -61,13 +61,18 @@
     
     //SEND SCORE DATA TO DATABASE
 
-    function upload_highscore() {
+    function upload_highscore(arg_score) {
 
-        const xhr = new XMLHttpRequest(), method = 'POST', url = 'http://localhost:7777/addnew';
+        let userScore = arg_score, userName = 'test',
+
+            json = JSON.stringify({name: userName, score: userScore});
+
+        const xhr = new XMLHttpRequest(), method = 'POST', endpoint = 'http://localhost:7777/addnew';
 
         xhr.open(method, endpoint, true )
 
         xhr.setRequestHeader('Accept', '*')
+        xhr.setRequestHeader('Content-Type', 'application/json');
 
         xhr.onload = () => {
 
@@ -77,7 +82,7 @@
 
         }
 
-        xhr.send()
+        xhr.send(json)
 
         load_latest_hs()
 
@@ -438,7 +443,7 @@
 
             document.getElementById('localhs').innerText = localHighScore;
 
-            upload_highscore()
+            upload_highscore(score)
         }
 
         gameStopped = true;
@@ -532,9 +537,6 @@
 
     function set_up_leaderboard(responseArr) {
 
-        console.log(responseArr);
-        
-
         //use xhr to get all scores -> pass the array from the parsed response text, and passes as parameter of this function
         let sortedScores = responseArr.sort((a, b) => {
            
@@ -543,26 +545,7 @@
         });
 
         //responseArr will have all the current highscores in database (name & score) as a json obj
-        
-        console.log(sortedScores);
-
-        //list does not look as good as a table (and was not much of challenge) so this will be delete in final commmits
-        // let ol = document.createElement('ol');
-
-        // for (let i = 0; i < sortedScores.length; i++) {
-            
-        //     let li = document.createElement('li');
-
-        //     li.className = 'leaderboardElm';
-
-        //     li.innerText = `${sortedScores[i].name}: ${sortedScores[i].score}`;
-
-        //     ol.appendChild(li);
-            
-        // }
-        
-        // document.getElementById("leftSideBar").appendChild(ol);
-
+       
         //CREATING scores table ...
 
         //create table in DOM
@@ -601,8 +584,11 @@
 
         leaderTable.id = 'leaderBoardTab';
         
+        let leaderBoardDiv = document.getElementById("lbdiv");
 
-        document.getElementById("leftSideBar").appendChild(leaderTable);
+        leaderBoardDiv.innerHTML = ''
+
+        leaderBoardDiv.appendChild(leaderTable);
 
     }
 

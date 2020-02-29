@@ -21,9 +21,9 @@ const express = require('express'),
 
           .then( response => {
 
-            console.log(response);
+            // console.log(response);
 
-            res.json({post: newpost })
+            res.json({message: 'Highscore Saved' })
             
           })
 
