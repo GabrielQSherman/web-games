@@ -33,25 +33,57 @@
     //boolean that allows the program to only have to show the score when the score is updated, not every frame
     let shownScore = false;
 
-    //LOAD HIGHSCORES
-    const xhr = new XMLHttpRequest(), method = 'GET', endpoint = 'http://localhost:7777/all';
+    //LOAD HIGHSCORES when page loads
+    load_latest_hs()
 
-    xhr.open(method, endpoint, true )
+    function load_latest_hs() {
 
-    xhr.setRequestHeader('Accept', '*')
+        const xhr = new XMLHttpRequest(), method = 'GET', endpoint = 'http://localhost:7777/all';
 
-    xhr.onload = () => {
+        xhr.open(method, endpoint, true )
 
-        let jsonData = JSON.parse(xhr.responseText);
+        xhr.setRequestHeader('Accept', '*')
 
-        // console.log(jsonData.all_scores);
-        
-        set_up_leaderboard(jsonData.all_scores)
+        xhr.onload = () => {
+
+            let jsonData = JSON.parse(xhr.responseText);
+
+            // console.log(jsonData.all_scores);
+            
+            set_up_leaderboard(jsonData.all_scores)
+
+        }
+
+        xhr.send()
 
     }
 
-    xhr.send()
+    
+    //SEND SCORE DATA TO DATABASE
 
+    function upload_highscore() {
+
+        const xhr = new XMLHttpRequest(), method = 'POST', url = 'http://localhost:7777/addnew';
+
+        xhr.open(method, endpoint, true )
+
+        xhr.setRequestHeader('Accept', '*')
+
+        xhr.onload = () => {
+
+            let jsonData = JSON.parse(xhr.responseText);
+
+            console.log(jsonData);
+
+        }
+
+        xhr.send()
+
+        load_latest_hs()
+
+
+    }
+    
 
     //CREATE BLACK BACKGROUND
         
@@ -134,7 +166,7 @@
         gameStopped = false;
 
 
-        console.log('game started');
+        // console.log('game started');
 
 
         //this funciton will clear the snakebody position array
@@ -159,14 +191,14 @@
         } else {
             
             if (!shownScore) {
-                console.log('test');
+                // console.log('test');
                 
                 document.getElementById('message').innerHTML = 'Score: ' + score;
                 shownScore = true
             }
         }
 
-        console.log(speed);
+        // console.log(speed);
         
 
         clear_screen() //everything that will apear on screen must be called after this funciton call
@@ -405,6 +437,8 @@
             localHighScore = score
 
             document.getElementById('localhs').innerText = localHighScore;
+
+            upload_highscore()
         }
 
         gameStopped = true;
@@ -564,16 +598,12 @@
             leaderTable.appendChild(tr);
             
         }
+
+        leaderTable.id = 'leaderBoardTab';
         
 
         document.getElementById("leftSideBar").appendChild(leaderTable);
 
-        //show up to ten scores
-
-        //use for loop 
-        //and make a table with key/value pairs for name and score
-
-        //append info to dom
     }
 
     // FUNCTIONS FOR CREATING BACKGROUND
@@ -677,6 +707,5 @@
         });
         
     }
-
 
     console.log('page has loaded');
