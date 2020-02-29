@@ -505,37 +505,69 @@
         let sortedScores = responseArr.sort((a, b) => {
            
             return (parseInt(b.score) - parseInt(a.score));
-            
+
         });
 
         //responseArr will have all the current highscores in database (name & score) as a json obj
-
+        
         console.log(sortedScores);
 
-        let ol = document.createElement('ol');
+        //list does not look as good as a table (and was not much of challenge) so this will be delete in final commmits
+        // let ol = document.createElement('ol');
 
-        for (let i = 0; i < sortedScores.length; i++) {
+        // for (let i = 0; i < sortedScores.length; i++) {
             
-            let li = document.createElement('li');
+        //     let li = document.createElement('li');
 
-            li.className = 'leaderboardElm';
+        //     li.className = 'leaderboardElm';
 
-            li.innerText = `${sortedScores[i].name}: ${sortedScores[i].score}`;
+        //     li.innerText = `${sortedScores[i].name}: ${sortedScores[i].score}`;
 
-            ol.appendChild(li);
+        //     ol.appendChild(li);
+            
+        // }
+        
+        // document.getElementById("leftSideBar").appendChild(ol);
+
+        //CREATING scores table ...
+
+        //create table in DOM
+        let leaderTable = document.createElement('table'),
+
+        //create headers
+         tableRow = document.createElement('tr'),
+         tableHeaderName = document.createElement('th'),
+         tableHeaderScore = document.createElement('th');
+
+         tableHeaderName.innerText = 'Name';
+         tableHeaderScore.innerText = 'Score';
+
+         tableRow.appendChild(tableHeaderName);
+         tableRow.appendChild(tableHeaderScore);
+
+         leaderTable.appendChild(tableRow)
+        
+         for (let i = 0; i < sortedScores.length && i < 10; i++) {
+            
+            let tr = document.createElement('tr'); //one variable for the row the info is contained on
+
+            let tdName = document.createElement('td'); //one for each
+
+            let tdScore = document.createElement('td'); //peice of infomation
+
+            tdName.innerText = sortedScores[i].name;
+            tdScore.innerText = sortedScores[i].score;
+
+            tr.appendChild(tdName);
+            tr.appendChild(tdScore);
+
+            leaderTable.appendChild(tr);
             
         }
         
-        document.getElementById("leftSideBar").appendChild(ol);
 
-        //create table in DOM
-        let leaderTable = document.createElement('table');
+        document.getElementById("leftSideBar").appendChild(leaderTable);
 
-
-
-
-        //sort by top score
-        
         //show up to ten scores
 
         //use for loop 
