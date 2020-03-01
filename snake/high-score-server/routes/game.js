@@ -55,4 +55,18 @@ const express = require('express'),
 
 
 
+    //adminRoutes for development
+
+    router.delete('/deleteall', async(req, res) => {
+
+      let deleteReport =  await highscoreSchema.remove({});
+
+      console.log(deleteReport);
+      
+      res.send('delete request sent')
+
+    })
+
+
+
 module.exports = router;
