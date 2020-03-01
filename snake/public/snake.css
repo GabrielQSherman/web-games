@@ -72,14 +72,14 @@ canvas {
 th {
 
     background-color: aquamarine;
-    border: 1px solid rgb(255, 251, 251);
+    border: 1px solid black;
     border-radius: 5px;
 }
 
 td {
     
     background-color: rgb(255, 224, 230);
-    border: 1px solid aquamarine;
+    border: 2px solid aquamarine;
 }
 
 .rightSideBar {

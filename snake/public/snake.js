@@ -54,6 +54,12 @@
 
         }
 
+        xhr.onerror = (err) => {
+            //function that will send a message to the user letting them know
+            // the highscores could not be retrieved from server
+            get_hs_failed() 
+        }
+
         xhr.send()
 
     }
@@ -85,7 +91,6 @@
         xhr.send(json)
 
         load_latest_hs()
-
 
     }
     
@@ -374,7 +379,7 @@
         }
     }
 
-    //COLLISION DETECTION
+    //COLLISION DETECTION - collision
 
     //CD for powerups
     function detect_powerup() {
@@ -409,7 +414,7 @@
     function detect_wall() {
 
         if (snkPos[0].x > gameSpaceWidth/snakeBlockSize || snkPos[0].x < 1 || snkPos[0].y > gameSpaceHeight/snakeBlockSize || snkPos[0].y < 1) {
-            console.log('hit wall');
+            // console.log('hit wall');
 
             game_over()
             
@@ -423,7 +428,7 @@
 
         for (let i = 3; i < snkPos.length; i++) {
             if (snkPos[0].x == snkPos[i].x && snkPos[0].y == snkPos[i].y) {
-                console.log('self hit');
+                // console.log('self hit');
 
                 game_over()
                 
@@ -433,17 +438,29 @@
         
     }
 
-    //GAME OVER FUNCITON
+    //GAME OVER FUNCITON 
     function game_over() {
 
         document.getElementById('message').innerHTML = '<h1 style="color:red">Game Over!</h1>';
 
+        
+
+        //the table element will be checked to see if the players score was higher than or equal to the score in 10th
+        const lb = document.getElementById('leaderBoardTab');
+
+        //regardless of the length (# of rows) of the table, this var will always be set to the last score displayed
+        let tenthPlaceScore = lb.lastElementChild.lastElementChild.innerText;
+
+        if (score >= tenthPlaceScore  && score > localHighScore ) {
+            //if the players score is in the top ten they will be added to the leaderboard
+            upload_highscore(score)
+        }
+
         if (localHighScore < score) {
+
             localHighScore = score
 
             document.getElementById('localhs').innerText = localHighScore;
-
-            upload_highscore(score)
         }
 
         gameStopped = true;
@@ -535,6 +552,17 @@
 
     //CREATING LEADERBOARD
 
+    //send message to user if get request was not sucessful
+
+    function get_hs_failed() {
+
+        const leaderBoardDiv = document.getElementById("lbdiv");
+
+        leaderBoardDiv.innerHTML = '<h1>Failed to get highscore data from server, make sure server is up and running correctly<h1>'
+
+    }
+
+    //set up leaderboard html table element if get request was successful
     function set_up_leaderboard(responseArr) {
 
         //create leaderboard 'title'
@@ -707,4 +735,4 @@
         
     }
 
-    console.log('page has loaded');
+    // console.log('page has loaded');
