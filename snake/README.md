@@ -24,6 +24,19 @@ after a few days of work i have completed connecting the front end to the backen
 
 Im installing morgan so i can see all my routes in my console for debug refrence.
 
+3/1/20
+
+leaderboard appearance was improved greatly, all elements, including leaderboard title are created dynamically in JS.
+
+If the server is not connected it will show a message to the users along the lines of 'server is not connected'
+
+when the user gets game over their highscore will be sent to the server with the name 'test'
+
+TODO: 
+*add a prompt on gameover that ask the user for their info if they made the leaderboard
+
+*add error handling if user wants to upload their score but server is not connected
+
 
 
 
