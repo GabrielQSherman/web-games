@@ -537,8 +537,15 @@
 
     function set_up_leaderboard(responseArr) {
 
+        //create leaderboard 'title'
+        // <h1 id="LB">Leader Board</h1> htmt equivelent
+        const lbTitle = document.createElement('h1');
+
+        lbTitle.id = 'LB';
+        lbTitle.innerText = 'Leader Board';
+
         //use xhr to get all scores -> pass the array from the parsed response text, and passes as parameter of this function
-        let sortedScores = responseArr.sort((a, b) => {
+        const sortedScores = responseArr.sort((a, b) => {
            
             return (parseInt(b.score) - parseInt(a.score));
 
@@ -549,7 +556,7 @@
         //CREATING scores table ...
 
         //create table in DOM
-        let leaderTable = document.createElement('table'),
+        const leaderTable = document.createElement('table'),
 
         //create headers
          tableRow = document.createElement('tr'),
@@ -566,11 +573,11 @@
         
          for (let i = 0; i < sortedScores.length && i < 10; i++) {
             
-            let tr = document.createElement('tr'); //one variable for the row the info is contained on
+            const tr = document.createElement('tr'); //one variable for the row the info is contained on
 
-            let tdName = document.createElement('td'); //one for each
+            const tdName = document.createElement('td'); //one for each
 
-            let tdScore = document.createElement('td'); //peice of infomation
+            const tdScore = document.createElement('td'); //peice of infomation
 
             tdName.innerText = sortedScores[i].name;
             tdScore.innerText = sortedScores[i].score;
@@ -583,12 +590,18 @@
         }
 
         leaderTable.id = 'leaderBoardTab';
+
+        leaderTable.align = 'center';
         
-        let leaderBoardDiv = document.getElementById("lbdiv");
+        const leaderBoardDiv = document.getElementById("lbdiv");
 
         leaderBoardDiv.innerHTML = ''
 
+        //append the title then the table
+        leaderBoardDiv.appendChild(lbTitle)
+
         leaderBoardDiv.appendChild(leaderTable);
+
 
     }
 

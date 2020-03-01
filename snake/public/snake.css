@@ -22,7 +22,7 @@ canvas {
     flex: 1;
 
     text-align: center;
-    background-color: rgb(255, 255, 255);
+    background-color: black;
 
     border-radius: 7px;
 }
@@ -31,14 +31,55 @@ canvas {
 #title {
     color: red;
     background-color: yellow;
-    border: 10px groove rgb(67, 217, 255);
+    border: 10px ridge rgb(67, 217, 255);
+}
+
+#currentSession {
+    border: 10px ridge yellow;
+    background-color: aqua;
+}
+
+#cshs {
+    color: white;
+    background-color: rgb(255, 1, 200);
+
+    margin: 0 auto;
+    
 }
 
 #LB {
 
-    background-color: rgb(67, 217, 255);
-    border: 10px groove rgb(238, 255, 0);
+    border: 10px ridge rgb(255, 222, 228);
 
+}
+
+#lbdiv {
+    margin-left: 1%;
+    margin-right: 1%;
+    
+    background-color: rgb(152, 243, 255);
+
+    border-radius: 30px;
+}
+
+#leaderBoardTab {
+  
+    width: 90%;
+    border: 3px solid rgb(255, 247, 0);
+    border-radius: 7px;
+}
+
+th {
+
+    background-color: aquamarine;
+    border: 1px solid rgb(255, 251, 251);
+    border-radius: 5px;
+}
+
+td {
+    
+    background-color: rgb(255, 224, 230);
+    border: 1px solid aquamarine;
 }
 
 .rightSideBar {
