@@ -25,9 +25,6 @@
     let gameStarted = false,
         gameStopped;
 
-
-
-
     //game score
     let score = 0, scoreInc = 1;
     //boolean that allows the program to only have to show the score when the score is updated, not every frame
@@ -64,12 +61,53 @@
 
     }
 
+    function enter_highscore_name(message, cancelCount) {
+
+        if (message === 0) {
+            message = "YOU MADE THE LEADERBOARD!!!\nEnter 3 Charaters To Secure Your Spot On The Leaderboard"
+        }
+
+        let hsName = prompt(message, "");
+
+        if (hsName != null) {
+
+            if (hsName.length > 2) {
+
+                // console.log(hsName.substring(0,3).toUpperCase());
+
+                return hsName.substring(0,3).toUpperCase();
+
+            } else {
+
+                message = "The Name Entered Must Be 3 Character, longer inputs will be shortened"
+
+                enter_highscore_name(message, 0)
+
+            }
+
+            
+        } else if (cancelCount == 0) {
+
+            message = "Are you sure you want to cancel? Just enter a name and your highscore will be saved"
+
+            enter_highscore_name(message, 1)
+            
+        } else if (cancelCount == 1) {
+
+            message = "Are you sure you want to cancel? If the prompt is cancled your highscore will not be saved"
+
+            enter_highscore_name(message, 2)
+
+        }  
+        
+    }
+
     
     //SEND SCORE DATA TO DATABASE
 
-    function upload_highscore(arg_score) {
+    function upload_highscore(score, name) {
 
-        let userScore = arg_score, userName = 'test',
+        let userScore = score, userName = name,
 
             json = JSON.stringify({name: userName, score: userScore});
 
@@ -90,7 +128,7 @@
 
         xhr.send(json)
 
-        load_latest_hs()
+        setTimeout(load_latest_hs, 0)
 
     }
     
@@ -443,7 +481,7 @@
 
         document.getElementById('message').innerHTML = '<h1 style="color:red">Game Over!</h1>';
 
-        
+       
 
         //the table element will be checked to see if the players score was higher than or equal to the score in 10th
         const lb = document.getElementById('leaderBoardTab');
@@ -451,9 +489,17 @@
         //regardless of the length (# of rows) of the table, this var will always be set to the last score displayed
         let tenthPlaceScore = lb.lastElementChild.lastElementChild.innerText;
 
-        if (score >= tenthPlaceScore  && score > localHighScore ) {
+        // console.log(tenthPlaceScore, score);
+
+        if (score >= tenthPlaceScore  ) {
             //if the players score is in the top ten they will be added to the leaderboard
-            upload_highscore(score)
+
+            let name = enter_highscore_name(0,0);
+
+            console.log(name);
+
+            if (name != undefined) upload_highscore(score, name)
+            
         }
 
         if (localHighScore < score) {
