@@ -30,13 +30,9 @@ leaderboard appearance was improved greatly, all elements, including leaderboard
 
 If the server is not connected it will show a message to the users along the lines of 'server is not connected'
 
-when the user gets game over their highscore will be sent to the server with the name 'test'
+The appearence of the game looks much better after todays work. Worked on CSS and Html a good bit
 
-TODO: 
-*add a prompt on gameover that ask the user for their info if they made the leaderboard
+The backend-to-frontend connection is working great when the server is running and the game will still run fine if the server is offline
 
-*add error handling if user wants to upload their score but server is not connected
-
-
-
-
+I limited the number of table rows but also increase the limit if dupplicates were found
+(7 unique scores, 15 max)
