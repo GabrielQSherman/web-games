@@ -57,6 +57,8 @@ const express = require('express'),
 
     //adminRoutes for development
 
+
+    //delete all highscores in database (can be modified to delete specific, but one must hardcode filters)
     router.delete('/deleteall', async(req, res) => {
 
       let deleteReport =  await highscoreSchema.remove({});
@@ -66,6 +68,52 @@ const express = require('express'),
       res.send('delete request sent')
 
     })
+
+    //upload testing data
+
+    router.post('/addtestpost/:postcount', async (req, res) => {
+
+        let Errors = [], Successes = [], numOfPost = req.params.postcount
+        
+        for (let i = 0; i < numOfPost; i++) {
+          
+            const newpost = new highscoreSchema( {
+
+              name: Math.random().toString(36).substring(3,6).toUpperCase(),
+              score: Math.ceil(Math.random() * 50)
+              
+            })
+
+
+            await newpost.save()
+
+            .then( response => {
+
+              // console.log(response);
+
+              Successes.push(response)
+              
+              
+            })
+
+            .catch( err => {
+
+              Errors.push(err)
+              
+            })
+            
+        }
+
+        res.json({
+
+          sucessfully_posted: Successes,
+          errors_occured: Errors
+
+        })
+
+      
+    })
+
 
 
 
