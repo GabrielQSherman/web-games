@@ -14,7 +14,7 @@
     localHighScore = 0, //this var will be set eachtime the player beats their current highscore
 
 
-    powerup_positions = [],
+    food_positions = [],
 
 
     direction = 'u';     // the direction the snake moves this can change every time the user inputs an arrow key; u = up, d = down, l = left, r = right;
@@ -28,7 +28,9 @@
     //game score
     let score = 0, scoreInc = 1;
     //boolean that allows the program to only have to show the score when the score is updated, not every frame
-    let shownScore = false;
+    let shownScore = false,
+        
+        serverConnected;
 
     load_latest_hs() //LOAD IN HIGHSCORES FROM DATABASE ON PAGELOAD
 
@@ -92,7 +94,7 @@
             case "KeyQ":
 
                 if (gameStarted) {
-                    alert('Game Paused\nPress Enter or Click "Ok" to resume')
+                    alert('Game Paused\n\nPress Enter, Space, or "Ok" to resume')
                 }
                 
                 break;
@@ -115,7 +117,7 @@
         direction = '';
         ticks = 0;
         powerupsOnScreen = 0;
-        powerup_positions = [];
+        food_positions = [];
         shownScore = false
 
         gameStopped = false;
@@ -192,7 +194,7 @@
         if (!gameStopped) {
             setTimeout(requestAnimationFrame, speed, (game_cycle));
         } else {
-            setTimeout(startGame, 1000);
+            setTimeout(startGame, 300);
     
         }
         
@@ -297,18 +299,18 @@
             
         }
 
-        powerup_positions.push(powerup_coord)
+        food_positions.push(powerup_coord)
 
     }
 
     function render_powerup() {
         
-        for (let i = 0; i < powerup_positions.length; i++) {
+        for (let i = 0; i < food_positions.length; i++) {
 
-            // let x = (powerup_positions[i].x * snakeBlockSize) - snakeBlockSize,
-            //     y = (powerup_positions[i].y  * snakeBlockSize) - snakeBlockSize;
-            let x = (powerup_positions[i].x * snakeBlockSize) - snakeBlockSize/2,
-            y = (powerup_positions[i].y  * snakeBlockSize) - snakeBlockSize/2;
+            // let x = (food_positions[i].x * snakeBlockSize) - snakeBlockSize,
+            //     y = (food_positions[i].y  * snakeBlockSize) - snakeBlockSize;
+            let x = (food_positions[i].x * snakeBlockSize) - snakeBlockSize/2,
+            y = (food_positions[i].y  * snakeBlockSize) - snakeBlockSize/2;
             
             context.save()
 
@@ -316,7 +318,7 @@
 
             context.arc(x, y, snakeBlockSize/2, 0, Math.PI*2)
             
-            context.fillStyle = 'hsl(' + powerup_positions[i].color + ', 100%, 70%)';
+            context.fillStyle = 'hsl(' + food_positions[i].color + ', 100%, 70%)';
             context.fill();
 
             context.restore()
@@ -329,12 +331,12 @@
     //CD for powerups
     function detect_powerup() {
 
-        for (let i = 0; i < powerup_positions.length; i++) {
+        for (let i = 0; i < food_positions.length; i++) {
         
-            if (snkPos[0].x == powerup_positions[i].x && snkPos[0].y == powerup_positions[i].y) {
+            if (snkPos[0].x == food_positions[i].x && snkPos[0].y == food_positions[i].y) {
                 // console.log('powerup!');
 
-                powerup_positions.splice(i,1);
+                food_positions.splice(i,1);
                 powerupsOnScreen--
 
                 if (speed >= 44) {
@@ -388,24 +390,27 @@
 
         document.getElementById('message').innerHTML = '<h1 style="color:red">Game Over!</h1>';
 
-       
+        //It will break the code if the program tries to access an element that does not exist
+        if (serverConnected) {
 
-        //the table element will be checked to see if the players score was higher than or equal to the score in 10th
-        const lb = document.getElementById('leaderBoardTab');
+            //the table element will be checked to see if the players score was higher than or equal to the score in 10th
+            const lb = document.getElementById('leaderBoardTab');
 
-        //regardless of the length (# of rows) of the table, this var will always be set to the last score displayed
-        let tenthPlaceScore = lb.lastElementChild.lastElementChild.innerText;
+            //regardless of the length (# of rows) of the table, this var will always be set to the last score displayed
+            let lastLBScore = lb.lastElementChild.lastElementChild.innerText;
 
-        // console.log(tenthPlaceScore, score);
+            // console.log(lastLBScore, score);
 
-        if (score >= tenthPlaceScore  ) {
-            //if the players score is in the top ten they will be added to the leaderboard
+            if (score >= lastLBScore || lastLBScore === 'Score' ) {
+                //if the players score is in the top ten they will be added to the leaderboard
 
-            let name = enter_highscore_name(0,0);
+                let name = enter_highscore_name(0,0);
 
-            console.log(name);
+                console.log(name);
 
-            if (name != undefined) upload_highscore(score, name)
+                if (name != undefined) upload_highscore(score, name)
+                
+            }
             
         }
 
@@ -551,8 +556,14 @@
          tableRow.appendChild(tableHeaderScore);
 
          leaderTable.appendChild(tableRow)
+
+         let numOfScores = 7;
         
-         for (let i = 0; i < sortedScores.length && i < 10; i++) {
+         for (let i = 0; i < sortedScores.length && i < numOfScores && i < 15; i++) {
+
+            if (sortedScores[i-1] != undefined && sortedScores[i].score === sortedScores[i-1].score) {
+                numOfScores++
+            }
             
             const tr = document.createElement('tr'); //one variable for the row the info is contained on
 
@@ -709,12 +720,15 @@
             
             set_up_leaderboard(jsonData.all_scores)
 
+            serverConnected = true
         }
 
         xhr.onerror = (err) => {
             //function that will send a message to the user letting them know
             // the highscores could not be retrieved from server
             get_hs_failed() 
+
+            serverConnected = false;
         }
 
         xhr.send()
@@ -727,9 +741,11 @@
             message = "YOU MADE THE LEADERBOARD!!!\nEnter 3 Charaters To Secure Your Spot On The Leaderboard"
         }
 
-        let hsName = prompt(message, "").trim();
+        let hsName = prompt(message, "");
 
         if (hsName != null) {
+
+            hsName = hsName.trim()
 
             if (hsName.length > 2) {
 
