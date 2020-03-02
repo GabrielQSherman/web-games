@@ -1,6 +1,6 @@
 body { 
-    background-color: rgb(241, 255, 203);
-    /* justify-content: center; */
+    background-image: url('checkerboard-bg.jpg');
+    
 }
 
 .game_display {
@@ -12,7 +12,7 @@ canvas {
         flex: 1;
 
         display: block;
-        border: 39px ridge rgb(203, 255, 242);
+        border: 39px double rgb(203, 255, 242);
 
         border-radius: 25px;
 }
@@ -31,11 +31,11 @@ canvas {
 #title {
     color: red;
     background-color: yellow;
-    border: 10px ridge rgb(67, 217, 255);
+    border: 10px outset rgb(67, 217, 255);
 }
 
 #currentSession {
-    border: 10px ridge yellow;
+    border: 3px groove yellow;
     background-color: aqua;
 }
 

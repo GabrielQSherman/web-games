@@ -67,7 +67,7 @@
             message = "YOU MADE THE LEADERBOARD!!!\nEnter 3 Charaters To Secure Your Spot On The Leaderboard"
         }
 
-        let hsName = prompt(message, "");
+        let hsName = prompt(message, "").trim();
 
         if (hsName != null) {
 
@@ -94,7 +94,7 @@
             
         } else if (cancelCount == 1) {
 
-            message = "Are you sure you want to cancel? If the prompt is cancled your highscore will not be saved"
+            message = "If this prompt is cancled your highscore will not be saved"
 
            return enter_highscore_name(message, 2)
 
