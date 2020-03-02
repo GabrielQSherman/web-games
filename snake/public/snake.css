@@ -12,9 +12,10 @@ canvas {
         flex: 1;
 
         display: block;
-        border: 39px double rgb(203, 255, 242);
+        border: 39px outset rgb(203, 255, 242);
 
-        border-radius: 25px;
+        /* border-radius: 25px; */
+
 }
 
 .leftSideBar {
@@ -114,7 +115,7 @@ td {
 
     border-radius: 10px;
 
-    margin-left: 27%;
-    margin-right: 27%;
+    margin-left: 37%;
+    margin-right: 37%;
 
 }

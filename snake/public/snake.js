@@ -30,108 +30,7 @@
     //boolean that allows the program to only have to show the score when the score is updated, not every frame
     let shownScore = false;
 
-    //LOAD HIGHSCORES when page loads
-    load_latest_hs()
-
-    function load_latest_hs() {
-
-        const xhr = new XMLHttpRequest(), method = 'GET', endpoint = 'http://localhost:7777/all';
-
-        xhr.open(method, endpoint, true )
-
-        xhr.setRequestHeader('Accept', '*')
-
-        xhr.onload = () => {
-
-            let jsonData = JSON.parse(xhr.responseText);
-
-            // console.log(jsonData.all_scores);
-            
-            set_up_leaderboard(jsonData.all_scores)
-
-        }
-
-        xhr.onerror = (err) => {
-            //function that will send a message to the user letting them know
-            // the highscores could not be retrieved from server
-            get_hs_failed() 
-        }
-
-        xhr.send()
-
-    }
-
-    function enter_highscore_name(message, cancelCount) {
-
-        if (message === 0) {
-            message = "YOU MADE THE LEADERBOARD!!!\nEnter 3 Charaters To Secure Your Spot On The Leaderboard"
-        }
-
-        let hsName = prompt(message, "").trim();
-
-        if (hsName != null) {
-
-            if (hsName.length > 2) {
-
-                // console.log(hsName.substring(0,3).toUpperCase());
-
-                return hsName.substring(0,3).toUpperCase();
-
-            } else {
-
-                message = "The Name Entered Must Be 3 Character, longer inputs will be shortened"
-
-                return enter_highscore_name(message, 0)
-
-            }
-
-            
-        } else if (cancelCount == 0) {
-
-            message = "Are you sure you want to cancel? Just enter a name and your highscore will be saved"
-
-           return enter_highscore_name(message, 1)
-            
-        } else if (cancelCount == 1) {
-
-            message = "If this prompt is cancled your highscore will not be saved"
-
-           return enter_highscore_name(message, 2)
-
-        }  
-        
-    }
-
-    
-    //SEND SCORE DATA TO DATABASE
-
-    function upload_highscore(score, name) {
-
-        let userScore = score, userName = name,
-
-            json = JSON.stringify({name: userName, score: userScore});
-
-        const xhr = new XMLHttpRequest(), method = 'POST', endpoint = 'http://localhost:7777/addnew';
-
-        xhr.open(method, endpoint, true )
-
-        xhr.setRequestHeader('Accept', '*')
-        xhr.setRequestHeader('Content-Type', 'application/json');
-
-        xhr.onload = () => {
-
-            let jsonData = JSON.parse(xhr.responseText);
-
-            console.log(jsonData.message);
-
-        }
-
-        xhr.send(json)
-
-        setTimeout(load_latest_hs, 100)
-
-    }
-    
+    load_latest_hs() //LOAD IN HIGHSCORES FROM DATABASE ON PAGELOAD
 
     //CREATE BLACK BACKGROUND
         
@@ -146,7 +45,7 @@
     document.addEventListener('keydown', keyDownHandler, false);
     // document.addEventListener('keyup', keyUpHandler, false);
 
-    //FUNCTIONS THAT INTERPERT USER INPUT
+    //FUNCTIONS THAT INTERPRET USER INPUT
     //the event param holds the key value which is accociated with a char on the keyboard
 
     function keyDownHandler(event) {
@@ -188,12 +87,20 @@
                 direction = 'd'
                 
                 break;
+
+            case "KeyP":
+            case "KeyQ":
+
+                if (gameStarted) {
+                    alert('Game Paused\nPress Enter or Click "Ok" to resume')
+                }
+                
+                break;
             default:
                 break;
         }
         
     }
-
 
     /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -781,4 +688,106 @@
         
     }
 
-    // console.log('page has loaded');
+    //HIGHSCORE FUNCTIONS 
+
+    //LOAD HIGHSCORES when page loads
+    
+
+    function load_latest_hs() {
+
+        const xhr = new XMLHttpRequest(), method = 'GET', endpoint = 'http://localhost:7777/all';
+
+        xhr.open(method, endpoint, true )
+
+        xhr.setRequestHeader('Accept', '*')
+
+        xhr.onload = () => {
+
+            let jsonData = JSON.parse(xhr.responseText);
+
+            // console.log(jsonData.all_scores);
+            
+            set_up_leaderboard(jsonData.all_scores)
+
+        }
+
+        xhr.onerror = (err) => {
+            //function that will send a message to the user letting them know
+            // the highscores could not be retrieved from server
+            get_hs_failed() 
+        }
+
+        xhr.send()
+
+    }
+
+    function enter_highscore_name(message, cancelCount) {
+
+        if (message === 0) {
+            message = "YOU MADE THE LEADERBOARD!!!\nEnter 3 Charaters To Secure Your Spot On The Leaderboard"
+        }
+
+        let hsName = prompt(message, "").trim();
+
+        if (hsName != null) {
+
+            if (hsName.length > 2) {
+
+                // console.log(hsName.substring(0,3).toUpperCase());
+
+                return hsName.substring(0,3).toUpperCase();
+
+            } else {
+
+                message = "The Name Entered Must Be 3 Character, longer inputs will be shortened"
+
+                return enter_highscore_name(message, 0)
+
+            }
+
+            
+        } else if (cancelCount == 0) {
+
+            message = "Are you sure you want to cancel? Just enter a name and your highscore will be saved"
+
+           return enter_highscore_name(message, 1)
+            
+        } else if (cancelCount == 1) {
+
+            message = "If this prompt is cancled your highscore will not be saved"
+
+           return enter_highscore_name(message, 2)
+
+        }  
+        
+    }
+
+    
+    //SEND SCORE DATA TO DATABASE
+
+    function upload_highscore(score, name) {
+
+        let userScore = score, userName = name,
+
+            json = JSON.stringify({name: userName, score: userScore});
+
+        const xhr = new XMLHttpRequest(), method = 'POST', endpoint = 'http://localhost:7777/addnew';
+
+        xhr.open(method, endpoint, true )
+
+        xhr.setRequestHeader('Accept', '*')
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onload = () => {
+
+            let jsonData = JSON.parse(xhr.responseText);
+
+            console.log(jsonData.message);
+
+        }
+
+        xhr.send(json)
+
+        setTimeout(load_latest_hs, 100)
+
+    }
