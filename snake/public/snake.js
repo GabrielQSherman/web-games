@@ -81,7 +81,7 @@
 
                 message = "The Name Entered Must Be 3 Character, longer inputs will be shortened"
 
-                enter_highscore_name(message, 0)
+                return enter_highscore_name(message, 0)
 
             }
 
@@ -90,13 +90,13 @@
 
             message = "Are you sure you want to cancel? Just enter a name and your highscore will be saved"
 
-            enter_highscore_name(message, 1)
+           return enter_highscore_name(message, 1)
             
         } else if (cancelCount == 1) {
 
             message = "Are you sure you want to cancel? If the prompt is cancled your highscore will not be saved"
 
-            enter_highscore_name(message, 2)
+           return enter_highscore_name(message, 2)
 
         }  
         
@@ -122,13 +122,13 @@
 
             let jsonData = JSON.parse(xhr.responseText);
 
-            console.log(jsonData);
+            console.log(jsonData.message);
 
         }
 
         xhr.send(json)
 
-        setTimeout(load_latest_hs, 0)
+        setTimeout(load_latest_hs, 100)
 
     }
     
