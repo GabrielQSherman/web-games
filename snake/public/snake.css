@@ -111,6 +111,13 @@ td {
     margin-right: 27%;
 }
 
+#darkmode {
+    color: whitesmoke;
+    background-color: black;
+    border: 10px whitesmoke solid;
+    border-radius: 10px;
+}
+
 
 .gameinfo {
     background-color: black;

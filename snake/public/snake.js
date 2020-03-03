@@ -40,6 +40,8 @@
 
         powerupsOnScreen = 0;
 
+    let darkmode = false;
+
     load_latest_hs() //LOAD IN HIGHSCORES FROM DATABASE ON PAGELOAD
 
     //CREATE BLACK BACKGROUND
@@ -917,4 +919,29 @@
         }
         
 
+    }
+
+    function toggleDarkMode() {
+        
+        if (!darkmode) {
+
+            document.body.style.background = 'black'
+            document.getElementById('rightSideBar').style.background = 'black'
+            document.getElementById('leftSideBar').style.background = 'black'
+
+            darkmode = true
+
+        } else {
+
+            document.body.style.backgroundImage = "url('checkerboard-bg.jpg')";
+            document.getElementById('rightSideBar').style.backgroundImage = 'linear-gradient(rgb(125, 244, 255), rgb(255, 122, 178))';
+            document.getElementById('leftSideBar').style.backgroundImage = 'linear-gradient(rgb(224, 122, 255), yellow)';
+
+            darkmode = false
+
+        }
+
+        console.log(document.getElementById('rightSideBar').style);
+        
+        
     }
