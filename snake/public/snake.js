@@ -36,7 +36,7 @@
         
         serverConnected, //the program will make a request to the database which host the highscores. This boolean will detirmin if a table of scores is created or a failed to reach server message is shown to the user
 
-        speed = 77, //speed of snake (ms wait between frames)
+        speed = 67, //speed of snake (ms wait between frames)
 
         powerupsOnScreen = 0;
 
@@ -120,6 +120,7 @@
 
         //reset neccesary variables
         speed = 77;
+        trailTimer = 0;
         score = 0;
         scoreInc = 1;
         direction = '';
@@ -292,7 +293,7 @@
             y1 = (y * snakeBlockSize) - snakeBlockSize,
             y2 = (y * snakeBlockSize),
 
-            margin = (snakeBlockSize /10);
+            margin = (snakeBlockSize /10),
 
             color = ticks + (index*20);
 
@@ -831,13 +832,18 @@
     function createTrail() {
 
         let snakeButt = snkPos.slice(snkPos.length-1, snkPos.length);
+        
 
         let newX = snakeButt[0].x,
             newY = snakeButt[0].y,
 
-            color = ticks * 5 + (snkPos.length-1 * 20);
+            color = ticks + ((snkPos.length-1) * 20),
 
-        let trailBlock = {x: newX, y: newY, color: color };
+            alpha = 1;
+
+            console.log(color);
+
+        let trailBlock = {x: newX, y: newY, color: color, alpha: alpha };
 
     
         trail_positions.push(trailBlock);
@@ -847,13 +853,14 @@
     //function that adds to the timer, this var will detirmin how long a trail will continue behind the snake
     function activate_trail() {
 
-        trailTimer += 7;
+        trailTimer += snkPos.length*1.5;
 
     }
 
     function renderTrail() {
 
         for (let i = 0; i < trail_positions.length; i++) {
+            
 
             const x = trail_positions[i].x,  y = trail_positions[i].y;
             
@@ -864,11 +871,23 @@
 
             margin = 0;
 
-            color = trail_positions[i].color;
+            color = trail_positions[i].color,
+
+            alpha = trail_positions[i].alpha;
+
+            trail_positions[i].color += (trail_positions.length - i)*5.7
+
+            trail_positions[i].alpha -= .05;
+
+            if (trail_positions[i].alpha <= 0 ) {
+
+                trail_positions.splice(i,1);
+                
+            }
 
             context.beginPath();
             context.rect(x1 + margin, y1 + margin, snakeBlockSize - margin*2, snakeBlockSize - margin*2);
-            context.fillStyle = `hsl( ${color}, 100%, 70%)`;
+            context.fillStyle = `hsla( ${color}, 100%, 70%, ${alpha})`;
             context.fill();
             
         }
