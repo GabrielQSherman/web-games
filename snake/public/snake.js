@@ -8,6 +8,8 @@
 
     ticks = 0, //messures how many frames have occured since start of game
 
+    trailTimer = 0, //this will detirmin if a trail is left behind the snake or not
+
     snakeBlockSize = 25,  // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
     snkPos = [],         // this array will contain all the positions that the snake currently takes up
 
@@ -27,10 +29,14 @@
 
     //game score
     let score = 0, scoreInc = 1;
-    //boolean that allows the program to only have to show the score when the score is updated, not every frame
-    let shownScore = false,
+    
+    let shownScore = false, //boolean that allows the program to only have to show the score when the score is updated, not every frame
         
-        serverConnected;
+        serverConnected, //the program will make a request to the database which host the highscores. This boolean will detirmin if a table of scores is created or a failed to reach server message is shown to the user
+
+        speed = 77, //speed of snake (ms wait between frames)
+
+        powerupsOnScreen = 0;
 
     load_latest_hs() //LOAD IN HIGHSCORES FROM DATABASE ON PAGELOAD
 
@@ -136,10 +142,6 @@
 
     // GAME LOOP
 
-    let speed = 77, //speed of snake (ms wait between frames)
-
-        powerupsOnScreen = 0;
-
     function game_cycle() {
 
         if (direction == '') {
@@ -182,6 +184,14 @@
         //this function handles displaying the snake to the screen, making sure the snake is created as a 'train' of blocks
         //the direction handling function is embeded in this function as well
         create_snake()
+
+
+        if (trailTimer > 0) {
+
+            trailTimer--
+
+            createTrail()
+        }
 
 
         //collision detection 
@@ -350,6 +360,8 @@
                 document.getElementById('message').innerHTML = 'Score: ' + score;
 
                 add_snake_block()
+
+                activate_trail()
                 
             }
             
@@ -805,5 +817,19 @@
         xhr.send(json)
 
         setTimeout(load_latest_hs, 100)
+
+    }
+
+    //Function for creating a colored trail behind snake when food is eaten
+    function createTrail() {
+
+        
+        
+    }
+
+    //function that adds to the timer, this var will detirmin how long a trail will continue behind the snake
+    function activate_trail() {
+
+        trailTimer += 5;
 
     }
