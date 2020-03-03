@@ -3,8 +3,8 @@
     //INITAL VARIABLE DELERATION FOR CANVAS ELEMENT
     let canvas = document.getElementById("canvas"),
     context = canvas.getContext("2d"),
-    gameSpaceWidth = canvas.width = 800,     //width of the canvas
-    gameSpaceHeight = canvas.height = 800,  //height of canvas
+    gameSpaceWidth = canvas.width = 1200,     //width of the canvas
+    gameSpaceHeight = canvas.height = 1200,  //height of canvas
 
     ticks = 0, //messures how many frames have occured since start of game
 
@@ -192,14 +192,10 @@
         renderTrail()
 
         render_powerup()
-
         
         //this function handles displaying the snake to the screen, making sure the snake is created as a 'train' of blocks
         //the direction handling function is embeded in this function as well
         create_snake()
-
-
-        
 
 
         //collision detection 
@@ -224,8 +220,10 @@
     //SNAKE CREATION 
     function start_snake() {
 
-        let snakeHead = {x:(gameSpaceWidth/snakeBlockSize)/2, y:(gameSpaceHeight/snakeBlockSize)/2};
+        let startX = Math.ceil((gameSpaceWidth/snakeBlockSize) * Math.random()), startY = Math.ceil((gameSpaceHeight/snakeBlockSize) * Math.random());
 
+        // let snakeHead = {x:(gameSpaceWidth/snakeBlockSize)/2, y:(gameSpaceHeight/snakeBlockSize)/2};
+        let snakeHead = {x: startX, y: startY};
         snkPos = [snakeHead];
 
         add_snake_block()
@@ -236,6 +234,19 @@
 
         create_star_field() //adds stars to Stars array
 
+        
+    }
+
+    function add_snake_block() {
+
+        let newX = snkPos[snkPos.length-1].x,
+            newY = snkPos[snkPos.length-1].y
+
+        let newSnakeBlock = {x: newX, y: newY};
+
+        snkPos.push(newSnakeBlock)
+
+        // console.log(newSnakeBlock);
         
     }
 
@@ -265,25 +276,19 @@
 
 
         for (let i = 0; i < snkPos.length; i++) {
-            
-            create_snake_block(snkPos[i].x, snkPos[i].y, i);
+
+            if (i == 0) {
+
+                create_snake_head(snkPos[i].x, snkPos[i].y, i);
+
+            } else {
+
+                create_snake_block(snkPos[i].x, snkPos[i].y, i);
+
+            }
             
         }
 
-    }
-
-
-    function add_snake_block() {
-
-        let newX = snkPos[snkPos.length-1].x,
-            newY = snkPos[snkPos.length-1].y
-
-        let newSnakeBlock = {x: newX, y: newY};
-
-        snkPos.push(newSnakeBlock)
-
-        // console.log(newSnakeBlock);
-        
     }
 
     function create_snake_block(x, y, index) {
@@ -303,6 +308,25 @@
         context.fillStyle = `hsl( ${color}, 100%, 70%)`;
         context.fill();
         
+    }
+
+    function create_snake_head(x, y, index) {
+
+        let x1 = (x * snakeBlockSize) - snakeBlockSize,
+        x2 = (x * snakeBlockSize),
+        y1 = (y * snakeBlockSize) - snakeBlockSize,
+        y2 = (y * snakeBlockSize),
+
+        margin = (snakeBlockSize /10),
+
+        color = ticks + (index*20);
+
+
+        context.beginPath();
+        context.rect(x1 + margin, y1 + margin, snakeBlockSize - margin*2, snakeBlockSize - margin*2);
+        context.fillStyle = `hsl( ${color}, 100%, 70%)`;
+        context.fill();
+
     }
 
     //ADDITIONAL ITEMS ON SCREEN

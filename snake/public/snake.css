@@ -1,22 +1,20 @@
 body { 
     background-color: black;
-    /* background-image: url('warpedcheckerboard-bg.jpg'); */
+    background-image: url('checkerboard-bg.jpg');
     
 }
 
 .game_display {
     display: flex;
+
 }
 
 canvas {
 
-        flex: 1;
+        flex: 2;
 
         display: block;
-        border: 39px outset rgb(203, 255, 242);
-
-        /* border-radius: 25px; */
-
+        border: 39px outset rgb(203, 255, 242); 
 }
 
 .leftSideBar {
@@ -24,9 +22,10 @@ canvas {
     flex: 1;
 
     text-align: center;
-    background-image: url('checkerboard-bg.jpg');
+    background-image: linear-gradient(rgb(224, 122, 255), yellow);
+    /* background-image: url('checkerboard-bg.jpg'); */
 
-    border-radius: 7px;
+    border-radius: 37px;
 }
 
 
@@ -34,11 +33,17 @@ canvas {
     color: red;
     background-color: yellow;
     border: 10px outset rgb(67, 217, 255);
+
+    margin-top: 7%;
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 #currentSession {
     border: 3px groove yellow;
     background-color: aqua;
+    margin-left: 25%;
+    margin-right: 25%;
 }
 
 #cshs {
@@ -89,10 +94,10 @@ td {
     flex: 1;
 
     text-align: center;
-    background-image: url('checkerboard-bg.jpg');
+    /* background-image: url('checkerboard-bg.jpg'); */
+    background-image: linear-gradient(rgb(125, 244, 255), rgb(255, 122, 178));
 
-
-    border-radius: 7px;
+    border-radius: 37px;
 
 }
 
@@ -107,7 +112,14 @@ td {
 }
 
 
+.gameinfo {
+    background-color: black;
 
+    margin-left: 7%;
+    margin-right: 7%;
+
+    border: 10px solid rgb(239, 255, 147);
+}
 
 #message {
 
@@ -117,7 +129,7 @@ td {
 
     border-radius: 10px;
 
-    margin-left: 37%;
-    margin-right: 37%;
+    margin: 10%;
+
 
 }
