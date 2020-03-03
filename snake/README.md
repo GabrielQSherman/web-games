@@ -36,3 +36,13 @@ The backend-to-frontend connection is working great when the server is running a
 
 I limited the number of table rows but also increase the limit if dupplicates were found
 (7 unique scores, 15 max)
+
+3/2/20
+
+I improved the look of the game so the gamespace is much bigger on screen and the sidebars take up almost the full height of the window
+
+I added a trail effect when the player picks up points. to do this i created a new array of objects. a new object will be created each frame in the wake of the snakes tail. a new object is created with the position of the snail tail and pushed to the trailArray. then as time goes on the objects color changes and its alpha fades. once its alpha has reached 0 it will be deleted from the array
+
+I created a darkmode toggle button that is linked to a function. The elements will start off in color and the background with a background image. if the button is toggled than darkmode will change all the divs and window background color to black. then back to default if the button is pressed a again.
+
+I upped the starting speed of the snake as the area of play is much bigger for the snake now.
