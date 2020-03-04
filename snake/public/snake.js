@@ -30,13 +30,13 @@
         gameStopped;
 
     //game score
-    let score = 0, scoreInc = 1;
+    let score, scoreInc;
     
     let shownScore = false, //boolean that allows the program to only have to show the score when the score is updated, not every frame
         
         serverConnected, //the program will make a request to the database which host the highscores. This boolean will detirmin if a table of scores is created or a failed to reach server message is shown to the user
 
-        speed = 67, //speed of snake (ms wait between frames)
+        speed = 0, //speed of snake (ms wait between frames)
 
         powerupsOnScreen = 0;
 
@@ -121,10 +121,10 @@
     function startGame() {
 
         //reset neccesary variables
-        speed = 77;
+        speed = 50;
         trailTimer = 0;
         score = 0;
-        scoreInc = 1;
+        scoreInc = 100;
         direction = '';
         ticks = 0;
         powerupsOnScreen = 0;
@@ -383,8 +383,11 @@
                 food_positions.splice(i,1);
                 powerupsOnScreen--
 
-                if (speed >= 44) {
-                    speed-=4;
+                if (speed >= 20) {
+
+                    console.log(speed);
+                    
+                    speed-=1;
                 }
 
                 score += scoreInc;
@@ -452,7 +455,7 @@
 
                 let name = enter_highscore_name(0,0);
 
-                console.log(name);
+                // console.log(name);
 
                 if (name != undefined) upload_highscore(score, name)
                 
@@ -603,9 +606,9 @@
 
          leaderTable.appendChild(tableRow)
 
-         let numOfScores = 7;
+         let numOfScores = 21;
         
-         for (let i = 0; i < sortedScores.length && i < numOfScores && i < 15; i++) {
+         for (let i = 0; i < sortedScores.length && i < numOfScores && i < 27; i++) {
 
             if (sortedScores[i-1] != undefined && sortedScores[i].score === sortedScores[i-1].score) {
                 numOfScores++
@@ -647,20 +650,6 @@
 
     let Stars = []; //this array will store the values of the current stars on the screen
 
-     
-    function make_circle(x, y, hue, size, lightness){
-
-        context.beginPath()
-        context.arc(x, y,  size, 0, 2 * Math.PI)
-
-        let saturation = 70;
-
-        context.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-        context.fill()
-
-        
-    }
-
 
     function create_star_field() {
 
@@ -670,14 +659,13 @@
 
         for (let i = 0; i < 200; i++) {
 
-            let hue = Math.random() * 360,
-                    x = (Math.random() * width) - width /2,
-                    y = (Math.random() * height) - height /2,
-                    size = 1,
-                    lightness = 60;
+            let 
+                x = (Math.random() * width) - width /2,
+                y = (Math.random() * height) - height /2,
+                lightness = 0;
              
             Stars.push({
-                x: x, y: y, hue: hue, radius: size, lightness: lightness
+                x: x, y: y, lightness: lightness
             });
             
         }
@@ -689,9 +677,39 @@
 
         for (let i = 0; i < Stars.length; i++) {
             
-            make_circle(Stars[i].x, Stars[i].y, Stars[i].hue, Stars[i].radius, Stars[i].lightness);
+            make_star(Stars[i].x, Stars[i].y, Stars[i].lightness)
             
         }
+
+    }
+
+    function make_star(x, y, lightness) {
+
+        let 
+        x1 = x,
+        y1 = y,
+        x2 = x*(1.13),
+        y2 = y*(1.13),
+        
+        grad = context.createLinearGradient(x1, y1, x2, y2);
+
+        //set up gradient
+        grad.addColorStop(1, `hsl(0, 100%, ${lightness +5}%)`);
+        grad.addColorStop(6/7, `hsl(45, 100%, ${lightness+2}%)`);
+        grad.addColorStop(5/7, `hsl(90, 100%, ${lightness+1}%)`);
+        grad.addColorStop(4/7, `hsl(135, 100%, ${lightness}%)`);
+        grad.addColorStop(3/7, `hsl(180, 100%, ${lightness-1}%)`);
+        grad.addColorStop(2/7, `hsl(245, 100%, ${lightness-2}%)`);
+        grad.addColorStop(1/7, `hsl(305, 100%, ${lightness -5}%)`);
+        
+        context.strokeStyle = grad;
+        
+        //gradient line stroke 
+        context.beginPath();
+        context.moveTo(x1,y1);
+        context.lineTo(x2,y2);
+       
+        context.stroke();
 
     }
 
@@ -719,9 +737,6 @@
                     Stars[i].y = NewY;
 
                     Stars[i].lightness += 3;
-                    
-                    Stars[i].radius += .027;
-
                 }
            
         }
@@ -733,14 +748,14 @@
 
         const width = gameSpaceWidth, height = gameSpaceHeight;
 
-        let hue = (Math.random() * 360),
+        let
         x = (Math.random() * width/2) - width /4,
         y = (Math.random() * height/2) - height /4,
-        size = 1,
+
         lightness = 0;
  
         Stars.push({
-            x: x, y: y, hue: hue, radius: size, lightness: lightness
+            x: x, y: y, lightness: lightness
         });
         
     }
@@ -867,8 +882,6 @@
 
             alpha = 1;
 
-            console.log(color);
-
         let trailBlock = {x: newX, y: newY, color: color, alpha: alpha };
 
     
@@ -922,26 +935,42 @@
     }
 
     function toggleDarkMode() {
+
+        const 
+            rSB = document.getElementById('rightSideBar'),
+            lSB = document.getElementById('leftSideBar'),
+            LB = document.getElementById('lbdiv'),
+            GI = document.getElementById('gameinfo');
+
+            console.log(GI);
+            
         
         if (!darkmode) {
 
             document.body.style.background = 'black'
-            document.getElementById('rightSideBar').style.background = 'black'
-            document.getElementById('leftSideBar').style.background = 'black'
+            rSB.style.background = 'black'
+            lSB.style.background = 'black'
+            LB.style.background = 'black'
+            GI.style.background = 'black'
+
+            GI.style.borderImage = 'linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0))';
+            canvas.style.borderImage = 'linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0))'
 
             darkmode = true
 
         } else {
+    
 
             document.body.style.backgroundImage = "url('checkerboard-bg.jpg')";
-            document.getElementById('rightSideBar').style.backgroundImage = 'linear-gradient(rgb(125, 244, 255), rgb(255, 122, 178))';
-            document.getElementById('leftSideBar').style.backgroundImage = 'linear-gradient(rgb(224, 122, 255), yellow)';
+            rSB.style.backgroundImage = 'linear-gradient(rgb(125, 244, 255), rgb(255, 122, 178))';
+            lSB.style.backgroundImage = 'linear-gradient(rgb(224, 122, 255), yellow)';
+            LB.style.background = 'rgb(152, 243, 255)'
+
+            GI.style.borderImage = 'repeating-linear-gradient(45deg, rgb(255, 0, 0), rgb(255, 160, 51), rgb(235, 255, 51),  rgb(109, 255, 51),  rgb(51, 255, 255),  rgb(116, 51, 255), rgb(197, 51, 255), rgb(255, 51, 170) 30px) 60';
+            canvas.style.borderImage = 'repeating-linear-gradient(135deg, rgb(255, 0, 0), rgb(255, 160, 51), rgb(235, 255, 51),  rgb(109, 255, 51),  rgb(51, 255, 255),  rgb(116, 51, 255), rgb(197, 51, 255), rgb(255, 51, 170) 30px) 60';
 
             darkmode = false
 
         }
-
-        console.log(document.getElementById('rightSideBar').style);
-        
         
     }
