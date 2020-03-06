@@ -44,6 +44,10 @@
 
     load_latest_hs() //LOAD IN HIGHSCORES FROM DATABASE ON PAGELOAD
 
+    //load image for snake head
+    let snakeHeadImg = new Image();
+        snakeHeadImg.src = 'smallCBpattern.png';
+
     //CREATE BLACK BACKGROUND
         
     context.beginPath();
@@ -278,57 +282,53 @@
 
 
 
-        for (let i = 0; i < snkPos.length; i++) {
-
-            if (i == 0) {
-
-                create_snake_head(snkPos[i].x, snkPos[i].y, i);
-
-            } else {
+        for (let i = 1; i < snkPos.length; i++) {
 
                 create_snake_block(snkPos[i].x, snkPos[i].y, i);
-
-            }
             
         }
+
+        create_snake_head(snkPos[0].x, snkPos[0].y, 0);
 
     }
 
     function create_snake_block(x, y, index) {
 
-        let x1 = (x * snakeBlockSize) - snakeBlockSize,
-            x2 = (x * snakeBlockSize),
-            y1 = (y * snakeBlockSize) - snakeBlockSize,
-            y2 = (y * snakeBlockSize),
-
+            let
             margin = (snakeBlockSize /10),
+            x1 = (x * snakeBlockSize) - snakeBlockSize,
+            x2 = snakeBlockSize - margin*2,
+            y1 = (y * snakeBlockSize) - snakeBlockSize,
+            y2 = snakeBlockSize - margin*2,
+
 
             color = ticks + (index*20);
 
+            context.beginPath();
+            context.rect(x1 + margin, y1 + margin, x2, y2);
+            context.fillStyle = `hsl( ${color}, 100%, 70%)`;
+            context.fill();
 
-        context.beginPath();
-        context.rect(x1 + margin, y1 + margin, snakeBlockSize - margin*2, snakeBlockSize - margin*2);
-        context.fillStyle = `hsl( ${color}, 100%, 70%)`;
-        context.fill();
-        
     }
 
     function create_snake_head(x, y, index) {
 
-        let x1 = (x * snakeBlockSize) - snakeBlockSize,
-        x2 = (x * snakeBlockSize),
-        y1 = (y * snakeBlockSize) - snakeBlockSize,
-        y2 = (y * snakeBlockSize),
+       
 
-        margin = (snakeBlockSize /10),
+        let
+            margin = (snakeBlockSize /10),
+            x1 = (x * snakeBlockSize) - snakeBlockSize,
+            x2 = snakeBlockSize - margin*2,
+            y1 = (y * snakeBlockSize) - snakeBlockSize,
+            y2 = snakeBlockSize - margin*2;
 
-        color = ticks + (index*20);
 
+        context.drawImage(snakeHeadImg, x1 + margin, y1 + margin, snakeBlockSize - margin*2, snakeBlockSize - margin*2);
 
-        context.beginPath();
-        context.rect(x1 + margin, y1 + margin, snakeBlockSize - margin*2, snakeBlockSize - margin*2);
-        context.fillStyle = `hsl( ${color}, 100%, 70%)`;
-        context.fill();
+        // context.beginPath();
+        // context.rect(x1 + margin, y1 + margin, snakeBlockSize - margin*2, snakeBlockSize - margin*2);
+        // context.fillStyle = `hsl( ${color}, 100%, 70%)`;
+        // context.fill();
 
     }
 
