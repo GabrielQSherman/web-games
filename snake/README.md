@@ -4,9 +4,9 @@
 
 2/19/20
 
-I updated the theme of my snake game to 'space', I've created a space background and updated the way the 'food' and the play looks on the screen
+updated the theme of my snake game to 'space', I've created a space background and updated the way the 'food' and the play looks on the screen
 
-I also updated the Html/CSS to look a lot better
+updated the Html/CSS to look a lot better
 
 
 2/20/20 
@@ -22,7 +22,7 @@ all together these will be the key components to sending and recieving highscore
 
 after a few days of work i have completed connecting the front end to the backend with one route. When the user's page loads, a request for all the current highscores is made and all the scores are displayed to the user. 
 
-Im installing morgan so i can see all my routes in my console for debug refrence.
+install morgan to see all routes in console for debug refrence.
 
 3/1/20
 
@@ -34,15 +34,23 @@ The appearence of the game looks much better after todays work. Worked on CSS an
 
 The backend-to-frontend connection is working great when the server is running and the game will still run fine if the server is offline
 
-I limited the number of table rows but also increase the limit if dupplicates were found
+limited the number of table rows but also increase the limit if dupplicates were found
 (7 unique scores, 15 max)
 
 3/2/20
 
-I improved the look of the game so the gamespace is much bigger on screen and the sidebars take up almost the full height of the window
+improved the look of the game so the gamespace is much bigger on screen and the sidebars take up almost the full height of the window
 
-I added a trail effect when the player picks up points. to do this i created a new array of objects. a new object will be created each frame in the wake of the snakes tail. a new object is created with the position of the snail tail and pushed to the trailArray. then as time goes on the objects color changes and its alpha fades. once its alpha has reached 0 it will be deleted from the array
+added a trail effect when the player picks up points. to do this i created a new array of objects. a new object will be created each frame in the wake of the snakes tail. a new object is created with the position of the snail tail and pushed to the trailArray. then as time goes on the objects color changes and its alpha fades. once its alpha has reached 0 it will be deleted from the array
 
-I created a darkmode toggle button that is linked to a function. The elements will start off in color and the background with a background image. if the button is toggled than darkmode will change all the divs and window background color to black. then back to default if the button is pressed a again.
+created a darkmode toggle button that is linked to a function. The elements will start off in color and the background with a background image. if the button is toggled than darkmode will change all the divs and window background color to black. then back to default if the button is pressed a again.
 
-I upped the starting speed of the snake as the area of play is much bigger for the snake now.
+increased the starting speed of the snake as the area of play is much bigger for the snake now. there is now a 50ms delay between snake movements with a minimum of 20ms
+
+3/3/20
+
+update the star background to something i like alot better, instead of the stars being circles they are now streaks that grow in length as they get closer to the border of the canvas
+
+updated the darkmode function to include the game info background, the canvas border, and the leaderboard background
+
+updated the border of the canvas and the gameinfo div to have a rainbow effect

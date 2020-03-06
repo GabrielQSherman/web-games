@@ -21,7 +21,7 @@
     trail_positions = [],
 
 
-    direction = 'u';     // the direction the snake moves this can change every time the user inputs an arrow key; u = up, d = down, l = left, r = right;
+    direction;     // the direction the snake moves this can change every time the user inputs an arrow key; u = up, d = down, l = left, r = right;
 
     //console.log(window.innerWidth);
 
@@ -141,6 +141,7 @@
         //this funciton will clear the snakebody position array
         add_powerup()
         add_powerup()
+
         start_snake()
         
     }
