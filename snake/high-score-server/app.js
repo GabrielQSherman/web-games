@@ -35,7 +35,7 @@ let  gameRoute = require('./routes/game');
         //when the connection occurs these promises will fire
         mongoose.connection.on('connected', () => {
 
-            // console.log(`\nMongoose connection open to ${mongoUri}\n`);
+            console.log(`\nMongoose connection open to ${mongoUri}\n`);
 
         });
 

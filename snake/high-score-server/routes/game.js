@@ -41,6 +41,7 @@ const express = require('express'),
 
 
       router.get('/all', async (req, res) => {
+        
           const all = await highscoreSchema.find();
 
           res.json({all_scores: all})

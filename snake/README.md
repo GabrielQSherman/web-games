@@ -54,3 +54,10 @@ update the star background to something i like alot better, instead of the stars
 updated the darkmode function to include the game info background, the canvas border, and the leaderboard background
 
 updated the border of the canvas and the gameinfo div to have a rainbow effect
+
+
+3/12/2020 
+
+updated wall detection so play is teleported to other side of gamespace instead of gameover on wallhit
+
+next i am going to make enemies because game is much harder to lose with this change

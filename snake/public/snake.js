@@ -8,10 +8,11 @@
 
     ticks = 0, //messures how many frames have occured since start of game
 
-    trailTimer = 0, //this will detirmin if a trail is left behind the snake or not
+    trailTimer = 0,           //this will determine if a trail is left behind the snake or not
+    starSpeedTimer = 0       //this will determine if the stars are speed up to indicate if the player got a new powerup
 
-    snakeBlockSize = 25,  // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
-    snkPos = [],         // this array will contain all the positions that the snake currently takes up
+    snakeBlockSize = 25,   // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
+    snkPos = [],          // this array will contain all the positions that the snake currently takes up
 
     localHighScore = 0, //this var will be set eachtime the player beats their current highscore
 
@@ -21,7 +22,7 @@
     trail_positions = [],
 
 
-    direction;     // the direction the snake moves this can change every time the user inputs an arrow key; u = up, d = down, l = left, r = right;
+    direction = '';     // the direction the snake moves this can change every time the user inputs an arrow key; u = up, d = down, l = left, r = right;
 
     //console.log(window.innerWidth);
 
@@ -72,7 +73,6 @@
                 if (!gameStarted) {
 
                     gameStarted = true
-
 
                     startGame()
                     
@@ -143,10 +143,9 @@
 
 
         //this funciton will clear the snakebody position array
-        // for (let i = 0; i < 50; i++) {
-        //     add_powerup()
-        //     add_powerup()         
-        // }
+        for (let i = 0; i < 3; i++) {
+            add_powerup()
+        }
         
 
         start_snake()
@@ -192,6 +191,12 @@
             
         }
 
+        if (starSpeedTimer < 0) {
+            
+            starSpeedTimer++
+
+        }
+
         if (trailTimer > 0) {
 
             trailTimer--
@@ -206,7 +211,6 @@
         //this function handles displaying the snake to the screen, making sure the snake is created as a 'train' of blocks
         //the direction handling function is embeded in this function as well
         create_snake()
-
 
         //collision detection 
         detect_powerup()
@@ -402,6 +406,8 @@
 
                 add_snake_block()
 
+                activate_star_speed()
+        
                 activate_trail()
                 
             }
@@ -413,19 +419,19 @@
 
     function detect_wall() {
 
-        if ( snkPos[0].x > gameSpaceWidth/snakeBlockSize ) {
-        
-            snkPos[0].x = 0;
-
-        } else if ( snkPos[0].x < 1 ) {
+        if ( snkPos[0].x < 1 ) {
 
             snkPos[0].x = gameSpaceWidth/snakeBlockSize;
+            
+        } else if (snkPos[0].x > gameSpaceWidth/snakeBlockSize ) {
+
+            snkPos[0].x = 0;
 
         } else if ( snkPos[0].y > gameSpaceHeight/snakeBlockSize ) {
 
             snkPos[0].y = 0;
 
-        } else if (  snkPos[0].y < 1 ) {
+        } else if ( snkPos[0].y < 1 ) {
 
             snkPos[0].y = gameSpaceHeight/snakeBlockSize;
 
@@ -703,8 +709,8 @@
         let 
         x1 = x,
         y1 = y,
-        x2 = x*(1.13),
-        y2 = y*(1.13),
+        x2 = starSpeedTimer < 0 ? x*(1.3 + ((starSpeedTimer + 5)/7)) : x*(1.3),
+        y2 = starSpeedTimer < 0 ? y*(1.3 + ((starSpeedTimer + 5)/7)) : y*(1.3),
         
         grad = context.createLinearGradient(x1, y1, x2, y2);
 
@@ -734,8 +740,9 @@
 
             const width = gameSpaceWidth;
 
-            let NewX = Stars[i].x * (1 + speed/1000),
-                NewY = Stars[i].y * (1 + speed/1000);
+
+            let NewX = starSpeedTimer < 0 ? Stars[i].x * (1.1 + ((starSpeedTimer+20)/300)) : Stars[i].x * (1 + snkPos.length/100) ,
+                NewY = starSpeedTimer < 0 ? Stars[i].y * (1.1 + ((starSpeedTimer+20)/300)) : Stars[i].y * (1 + snkPos.length/100);
 
 
                 if (NewX > width || NewX < -width || NewY > width || NewY < -width) {
@@ -751,7 +758,7 @@
                     Stars[i].x = NewX;
                     Stars[i].y = NewY;
 
-                    Stars[i].lightness += 3;
+                    Stars[i].lightness += (snkPos.length / 100) + 3;
                 }
            
         }
@@ -909,6 +916,11 @@
 
         trailTimer += snkPos.length*1.5;
 
+    }
+
+    function activate_star_speed() {
+
+        starSpeedTimer -= 17;
     }
 
     function renderTrail() {
