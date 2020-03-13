@@ -143,8 +143,11 @@
 
 
         //this funciton will clear the snakebody position array
-        add_powerup()
-        add_powerup()
+        // for (let i = 0; i < 50; i++) {
+        //     add_powerup()
+        //     add_powerup()         
+        // }
+        
 
         start_snake()
         
@@ -410,11 +413,22 @@
 
     function detect_wall() {
 
-        if (snkPos[0].x > gameSpaceWidth/snakeBlockSize || snkPos[0].x < 1 || snkPos[0].y > gameSpaceHeight/snakeBlockSize || snkPos[0].y < 1) {
-            // console.log('hit wall');
+        if ( snkPos[0].x > gameSpaceWidth/snakeBlockSize ) {
+        
+            snkPos[0].x = 0;
 
-            game_over()
-            
+        } else if ( snkPos[0].x < 1 ) {
+
+            snkPos[0].x = gameSpaceWidth/snakeBlockSize;
+
+        } else if ( snkPos[0].y > gameSpaceHeight/snakeBlockSize ) {
+
+            snkPos[0].y = 0;
+
+        } else if (  snkPos[0].y < 1 ) {
+
+            snkPos[0].y = gameSpaceHeight/snakeBlockSize;
+
         }
         
     }
