@@ -11,7 +11,7 @@
     trailTimer = 0,           //this will determine if a trail is left behind the snake or not
     starSpeedTimer = 0       //this will determine if the stars are speed up to indicate if the player got a new powerup
 
-    snakeBlockSize = 25,   // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
+    snakeBlockSize = 35,   // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
     snkPos = [],          // this array will contain all the positions that the snake currently takes up
 
     localHighScore = 0, //this var will be set eachtime the player beats their current highscore
@@ -68,6 +68,8 @@
     document.addEventListener('keydown', keyDownHandler, false);
     // document.addEventListener('keyup', keyUpHandler, false);
 
+    // document.getElementById('playerIcon').addEventListener('onchange', changePlayerIcon)
+
     //FUNCTIONS THAT INTERPRET USER INPUT
     //the event param holds the key value which is accociated with a char on the keyboard
 
@@ -122,6 +124,14 @@
                 break;
         }
         
+    }
+
+    function changePlayerIcon() {
+        // console.log('test');
+        
+        console.log('change to', document.getElementById('playerIcon').value);
+        
+        snakeHeadImg.src = document.getElementById('playerIcon').value;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -353,8 +363,7 @@
         let powerup_coord = {
             x: Math.round(((gameSpaceWidth/snakeBlockSize) -7 )* Math.random()) + 3,
             y: Math.round(((gameSpaceHeight/snakeBlockSize) -7 )* Math.random()) + 3,
-            color: Math.round(Math.random() * 360),
-            size: 1
+            color: Math.round(Math.random() * 360)
             
         }
 
@@ -366,16 +375,13 @@
         
         for (let i = 0; i < food_positions.length; i++) {
 
-            // let circleRings = food_positions[i].size < 20 ? food_positions[i].size++ : food_positions[i].size;
-
-            // let x = (food_positions[i].x * snakeBlockSize) - snakeBlockSize,
-            //     y = (food_positions[i].y  * snakeBlockSize) - snakeBlockSize;
             let x = (food_positions[i].x * snakeBlockSize) - snakeBlockSize*1.5,
-            y = (food_positions[i].y  * snakeBlockSize) - snakeBlockSize*1.5,
-            image = food_positions[i].color > 180 ? star1Img : star2Img;
+                y = (food_positions[i].y  * snakeBlockSize) - snakeBlockSize*1.5,
+                image = food_positions[i].color > 180 ? star1Img : star2Img; 
+                //detirmine what image the powerup will use based on the powerup color property
 
+                //create some random lines to make powerup more drawing to the eye
                 context.save()
-
                 context.translate(x + snakeBlockSize,y + snakeBlockSize);
 
                 for (let j = 0; j < 5; j++) {
@@ -386,7 +392,7 @@
 
                     context.rotate( Math.random() * ( Math.PI * 2) );
 
-                    context.lineTo(Math.random() * 10 + 10,Math.random() * 5 + 15);
+                    context.lineTo(Math.random() * snakeBlockSize/3 + snakeBlockSize/2,Math.random() * 5 + 15);
 
                     context.strokeStyle = 'hsl(' + ( Math.random() * 100 + food_positions[i].color ) +  ', 100%, 70%)';
 
@@ -396,32 +402,8 @@
                 }
                 context.restore()
 
-                
-
-
+            //makes main star image
             context.drawImage(image, x, y, snakeBlockSize*2, snakeBlockSize*2);
-            
-            // context.save()
-
-            // for (let j = 0; j < circleRings; j++) {
-
-            //     context.beginPath();
-
-            //     context.arc(x, y, (snakeBlockSize/2) + (j/3), 0, Math.PI*2);
-
-            //     context.strokeStyle = 'hsl(' + (food_positions[i].color + (j*5)) +  ', 100%, 70%)';
-
-            //     context.stroke()
-            // }
-
-            // context.beginPath();
-
-            // context.arc(x, y, snakeBlockSize/2, 0, Math.PI*2)
-            
-            // context.fillStyle = 'hsl(' + (food_positions[i].color) +  ', 100%, 70%)';
-            // context.fill();
-
-            // context.restore()
             
         }
     }

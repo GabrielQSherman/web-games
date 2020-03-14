@@ -45,6 +45,18 @@
             <h3>PRESS P OR Q TO PAUSE</h3>
             <button id="darkmode" onclick="toggleDarkMode()">TOGGLE DARK MODE</button>
             <br>
+
+            <label for="playerIcon">Select to Change Snake Head</label>
+            <select id="playerIcon" onchange="changePlayerIcon()">
+                
+                <option value="smallCBpattern.png">Checkerboard</option>
+                <option value="yin-yang.png">Yin Yang</option>
+                <option value="star1.png">Star1</option>
+                <option value="star2.png">Star2</option>
+
+            </select>
+
+            <br>
             <h3>WARNING<br>If you prevent prompts on this page you will not be able to pause or post your highscores</h3>
             <br>
             <h3 id="by">by Gabriel Sherman</h3>
