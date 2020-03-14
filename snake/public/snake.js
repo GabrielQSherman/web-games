@@ -345,7 +345,8 @@
         let powerup_coord = {
             x: Math.round(((gameSpaceWidth/snakeBlockSize) -7 )* Math.random()) + 3,
             y: Math.round(((gameSpaceHeight/snakeBlockSize) -7 )* Math.random()) + 3,
-            color: Math.round(Math.random() * 360)
+            color: Math.round(Math.random() * 360),
+            size: 1
             
         }
 
@@ -357,6 +358,8 @@
         
         for (let i = 0; i < food_positions.length; i++) {
 
+            // let circleRings = food_positions[i].size < 25 ? food_positions[i].size++ : food_positions[i].size;
+
             // let x = (food_positions[i].x * snakeBlockSize) - snakeBlockSize,
             //     y = (food_positions[i].y  * snakeBlockSize) - snakeBlockSize;
             let x = (food_positions[i].x * snakeBlockSize) - snakeBlockSize/2,
@@ -364,11 +367,22 @@
             
             context.save()
 
+            // for (let j = 0; j < circleRings; j++) {
+
+            //     context.beginPath();
+
+            //     context.arc(x, y, (snakeBlockSize/2) + (j/3), 0, Math.PI*2);
+
+            //     context.strokeStyle = 'hsl(' + (food_positions[i].color + (j*5)) +  ', 100%, 70%)';
+
+            //     context.stroke()
+            // }
+
             context.beginPath();
 
             context.arc(x, y, snakeBlockSize/2, 0, Math.PI*2)
             
-            context.fillStyle = 'hsl(' + food_positions[i].color + ', 100%, 70%)';
+            context.fillStyle = 'hsl(' + (food_positions[i].color) +  ', 100%, 70%)';
             context.fill();
 
             context.restore()
@@ -391,7 +405,7 @@
 
                 if (speed >= 20) {
 
-                    console.log(speed);
+                    // console.log(speed);
                     
                     speed-=1;
                 }
@@ -758,7 +772,7 @@
                     Stars[i].x = NewX;
                     Stars[i].y = NewY;
 
-                    Stars[i].lightness += (snkPos.length / 50) + 3;
+                    Stars[i].lightness += (snkPos.length / 70) + 3.7;
                 }
            
         }
