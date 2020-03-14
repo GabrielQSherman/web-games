@@ -180,7 +180,7 @@
 
 
         //add powerup
-        if (ticks % 30 == 0 && powerupsOnScreen < (ticks/200) + 4) {
+        if (ticks % 30 == 0 && powerupsOnScreen < (ticks/200) + 4 && powerupsOnScreen < 4) {
 
             add_powerup()
 
@@ -213,11 +213,13 @@
         detect_powerup()
 
         detect_wall() //log if the wall has been hit
-        detect_self_hit() //log if one snake part hits the snake head
+        // detect_self_hit() //log if one snake part hits the snake head
             
         // console.log('snake moved', ticks, snkPos);
+
+        let gameSpeed = starSpeedTimer < -10 ? 5 : speed;
         if (!gameStopped) {
-            setTimeout(requestAnimationFrame, speed, (game_cycle));
+            setTimeout(requestAnimationFrame, gameSpeed, (game_cycle));
         } else {
             setTimeout(startGame, 300);
     
@@ -237,7 +239,7 @@
         let snakeHead = {x: startX, y: startY};
         snkPos = [snakeHead];
 
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 3; i++) {
             add_snake_block()         
         }
 
@@ -358,7 +360,7 @@
         
         for (let i = 0; i < food_positions.length; i++) {
 
-            // let circleRings = food_positions[i].size < 25 ? food_positions[i].size++ : food_positions[i].size;
+            let circleRings = food_positions[i].size < 20 ? food_positions[i].size++ : food_positions[i].size;
 
             // let x = (food_positions[i].x * snakeBlockSize) - snakeBlockSize,
             //     y = (food_positions[i].y  * snakeBlockSize) - snakeBlockSize;
@@ -367,16 +369,16 @@
             
             context.save()
 
-            // for (let j = 0; j < circleRings; j++) {
+            for (let j = 0; j < circleRings; j++) {
 
-            //     context.beginPath();
+                context.beginPath();
 
-            //     context.arc(x, y, (snakeBlockSize/2) + (j/3), 0, Math.PI*2);
+                context.arc(x, y, (snakeBlockSize/2) + (j/3), 0, Math.PI*2);
 
-            //     context.strokeStyle = 'hsl(' + (food_positions[i].color + (j*5)) +  ', 100%, 70%)';
+                context.strokeStyle = 'hsl(' + (food_positions[i].color + (j*5)) +  ', 100%, 70%)';
 
-            //     context.stroke()
-            // }
+                context.stroke()
+            }
 
             context.beginPath();
 
@@ -690,7 +692,7 @@
 
         Stars = [];
 
-        for (let i = 0; i < 500; i++) {
+        for (let i = 0; i < 333; i++) {
 
             let 
                 x = (Math.random() * width) - width /2,
