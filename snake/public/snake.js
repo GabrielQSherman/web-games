@@ -186,7 +186,7 @@
 
 
         //add powerup
-        if (ticks % 30 == 0 && powerupsOnScreen < (ticks/200) + 4 && powerupsOnScreen < 4) {
+        if (ticks % 30 == 0 && powerupsOnScreen < (ticks/200) && powerupsOnScreen < 5) {
 
             add_powerup()
 
@@ -219,7 +219,7 @@
         detect_powerup()
 
         detect_wall() //log if the wall has been hit
-        // detect_self_hit() //log if one snake part hits the snake head
+        detect_self_hit() //log if one snake part hits the snake head
             
         // console.log('snake moved', ticks, snkPos);
 
@@ -245,7 +245,7 @@
         let snakeHead = {x: startX, y: startY};
         snkPos = [snakeHead];
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 2; i++) {
             add_snake_block()         
         }
 
@@ -373,6 +373,31 @@
             let x = (food_positions[i].x * snakeBlockSize) - snakeBlockSize*1.5,
             y = (food_positions[i].y  * snakeBlockSize) - snakeBlockSize*1.5,
             image = food_positions[i].color > 180 ? star1Img : star2Img;
+
+                context.save()
+
+                context.translate(x + snakeBlockSize,y + snakeBlockSize);
+
+                for (let j = 0; j < 5; j++) {
+
+                    context.beginPath();
+                   
+                    context.moveTo(0,0);
+
+                    context.rotate( Math.random() * ( Math.PI * 2) );
+
+                    context.lineTo(Math.random() * 10 + 10,Math.random() * 5 + 15);
+
+                    context.strokeStyle = 'hsl(' + ( Math.random() * 100 + food_positions[i].color ) +  ', 100%, 70%)';
+
+                    context.stroke()
+                    
+                    
+                }
+                context.restore()
+
+                
+
 
             context.drawImage(image, x, y, snakeBlockSize*2, snakeBlockSize*2);
             
