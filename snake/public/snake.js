@@ -11,7 +11,7 @@
     trailTimer = 0,           //this will determine if a trail is left behind the snake or not
     starSpeedTimer = 0       //this will determine if the stars are speed up to indicate if the player got a new powerup
 
-    snakeBlockSize = 35,   // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
+    snakeBlockSize = 30,   // this will determin the size of the grid blocks that the snake moves on, as well as the size of each block that makes up the snake
     snkPos = [],          // this array will contain all the positions that the snake currently takes up
 
     localHighScore = 0, //this var will be set eachtime the player beats their current highscore
@@ -47,7 +47,7 @@
 
     //load image for snake head
     let snakeHeadImg = new Image();
-        snakeHeadImg.src = 'smallCBpattern.png';
+        snakeHeadImg.src = document.getElementById('playerIcon').value;
 
     let star1Img = new Image();
         star1Img.src = 'star1.png';
@@ -127,11 +127,15 @@
     }
 
     function changePlayerIcon() {
-        // console.log('test');
+
+        let iconSelect = document.getElementById('playerIcon');
         
-        console.log('change to', document.getElementById('playerIcon').value);
+        // console.log('change to', iconSelect.value);
         
-        snakeHeadImg.src = document.getElementById('playerIcon').value;
+        snakeHeadImg.src = iconSelect.value;
+
+        iconSelect.blur() //unfocus select elm...prevents arrow keys from contiunouslly changing icon until user manually focuses somewhere else on the document
+
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -344,15 +348,57 @@
             x2 = snakeBlockSize - margin*2,
             y1 = (y * snakeBlockSize) - snakeBlockSize,
             y2 = snakeBlockSize - margin*2;
+        console.log(snakeHeadImg);
+        
 
 
-        context.drawImage(snakeHeadImg, x1 + margin, y1 + margin, snakeBlockSize - margin*2, snakeBlockSize - margin*2);
+        if (snakeHeadImg.src.includes('pacman')) {
+
+            makePMHead(x1+ snakeBlockSize/2, y1+ snakeBlockSize/2)
+            
+        } else {
+            let factor = .2;
+            context.drawImage(snakeHeadImg, x1 + margin * factor, y1 + margin* factor, snakeBlockSize - margin*2* factor, snakeBlockSize - margin*2* factor);
+        }
 
         // context.beginPath();
         // context.rect(x1 + margin, y1 + margin, snakeBlockSize - margin*2, snakeBlockSize - margin*2);
         // context.fillStyle = `hsl( ${color}, 100%, 70%)`;
         // context.fill();
 
+    }
+
+    function makePMHead(x, y) {
+
+        context.fillStyle = trailTimer >= 0 ? `hsl( ${ticks*7}, 100%, 70%)`:'yellow';
+        
+        let mouthAngleStart = ((Math.cos(ticks/3))),
+            mouthAngleEnd = (Math.PI*2 - (Math.cos(ticks/3)));
+
+        context.save()
+
+        context.translate(x,y)
+
+        switch (direction) { //direction 'right' will work fine as is, so no rotation needed
+            case 'd':
+                        context.rotate(Math.PI/2)
+                break;
+            case 'u':
+                        context.rotate(-Math.PI/2)
+                break;
+            case 'l':
+                        context.rotate(Math.PI/2 + 1.5)
+                break;
+            default:
+                break;
+        }
+
+        context.beginPath();
+        context.moveTo(0,0)
+        context.arc(0,0, snakeBlockSize/2, mouthAngleStart , mouthAngleEnd);
+        context.fill();
+        
+        context.restore()
     }
 
     //ADDITIONAL ITEMS ON SCREEN
@@ -532,26 +578,17 @@
 
         switch (direction) {
             case 'd':
-
-                currentSnakeHead.y++
-                
+                        currentSnakeHead.y++
                 break;
             case 'u':
-
-                currentSnakeHead.y--
-                
+                        currentSnakeHead.y--
                 break;
             case 'r':
-
-                currentSnakeHead.x++
-                
+                        currentSnakeHead.x++
                 break;
             case 'l':
-
-                currentSnakeHead.x--
-                
+                        currentSnakeHead.x--
                 break;
-
             default:
                 break;
         }
@@ -604,7 +641,7 @@
 
         context.restore()
 
-        moveStars(57) //moves the position of each start slightly
+        moveStars() //moves the position of each start slightly
         
     }
 
@@ -765,7 +802,7 @@
 
     }
 
-    function moveStars(speed) {
+    function moveStars() {
 
         let starSpeed = snkPos.length < 27 ? snkPos.length: 27,
 
