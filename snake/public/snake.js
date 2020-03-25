@@ -339,41 +339,36 @@
     }
 
     function create_snake_head(x, y, index) {
-
-       
-
+    
         let
             margin = (snakeBlockSize /10),
             x1 = (x * snakeBlockSize) - snakeBlockSize,
             x2 = snakeBlockSize - margin*2,
             y1 = (y * snakeBlockSize) - snakeBlockSize,
             y2 = snakeBlockSize - margin*2;
-        console.log(snakeHeadImg);
-        
-
 
         if (snakeHeadImg.src.includes('pacman')) {
 
             makePMHead(x1+ snakeBlockSize/2, y1+ snakeBlockSize/2)
             
+        } else if (snakeHeadImg.src.includes('eye') || snakeHeadImg.src.includes('yinyang')) {
+            let factor = .01;
+            context.drawImage(snakeHeadImg, x1 + margin * factor, y1 + margin* factor, snakeBlockSize - margin*2* factor, snakeBlockSize - margin*2* factor);
         } else {
             let factor = .2;
             context.drawImage(snakeHeadImg, x1 + margin * factor, y1 + margin* factor, snakeBlockSize - margin*2* factor, snakeBlockSize - margin*2* factor);
         }
 
-        // context.beginPath();
-        // context.rect(x1 + margin, y1 + margin, snakeBlockSize - margin*2, snakeBlockSize - margin*2);
-        // context.fillStyle = `hsl( ${color}, 100%, 70%)`;
-        // context.fill();
-
     }
 
     function makePMHead(x, y) {
 
-        context.fillStyle = trailTimer >= 0 ? `hsl( ${ticks*7}, 100%, 70%)`:'yellow';
+        context.fillStyle = trailTimer > 0 ? `hsl( ${ticks}, 100%, 70%)`:'yellow';
         
-        let mouthAngleStart = ((Math.cos(ticks/3))),
-            mouthAngleEnd = (Math.PI*2 - (Math.cos(ticks/3)));
+        let mouthAngleStart = ((Math.cos(ticks/3))*1.2),
+            mouthAngleEnd = (Math.PI*2 - (Math.cos(ticks/3))*1.2),
+
+            headSize = snakeBlockSize/3 + snkPos.length/3;
 
         context.save()
 
@@ -395,7 +390,7 @@
 
         context.beginPath();
         context.moveTo(0,0)
-        context.arc(0,0, snakeBlockSize/2, mouthAngleStart , mouthAngleEnd);
+        context.arc(0,0, headSize, mouthAngleStart , mouthAngleEnd);
         context.fill();
         
         context.restore()
